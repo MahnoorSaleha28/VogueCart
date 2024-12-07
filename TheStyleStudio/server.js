@@ -18,16 +18,14 @@ const port = 5000;
 
 server.get('/', async (req, res) => {
     try {
-      // Specify the desired categories
-      const mainCategories = ['Clothes', 'Jewelry', 'Bags', 'Toys', 'Accessories'];
+      // Fetch all categories from the database
+      const categories = await Category.find();
   
-      // Fetch these categories from the database
-      const categories = await Category.find({ name: { $in: mainCategories } });
-  
-      // Fetch products for each of these categories
+      // Fetch products for each category
       const categoryProducts = await Promise.all(
         categories.map(async (category) => {
-          const products = await Product.find({ category: category._id }).limit(5); // Adjust the number of products
+          // Fetch a limited number of products for each category (e.g., 4 products)
+          const products = await Product.find({ category: category._id }).limit(4);
           return {
             category: category.name,
             products: products,
@@ -43,6 +41,7 @@ server.get('/', async (req, res) => {
     }
   });
   
+
 server.get('/admin', (req, res) => {
     res.render("admin/dashboard", {
         layout: "adminlayout", 
