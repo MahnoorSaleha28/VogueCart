@@ -1,128 +1,10 @@
 body {
-    --heading-font: "Marcellus", Roboto, sans-serif;
-    --heading-font-weight: 400;
-    --heading-color: #111;
-    --heading-line-height: 1.24;
-  
-    --swiper-theme-color: #8C907E;
-  
-    /* bootstrap */
-    --bs-body-font-family: "Jost", Roboto, sans-serif;
-    --bs-body-font-size: 18px;
-    --bs-body-font-weight: 400;
-    --bs-body-line-height: 1.5;
-    --bs-body-color: #8f8f8f;
-    --bs-body-color-rgb: 143, 143, 143;
-  
-    --bs-primary: #8C907E;
-    --bs-secondary: #6c757d;
-    --bs-black: #111;
-    --bs-light: #F1F1F0;
-    --bs-dark: #212529;
-    --bs-gray: #9aa1a7;
-    --bs-gray-dark: #51565b;
-  
-    --bs-primary-rgb: 140, 144, 126;
-    --bs-secondary-rgb: 108, 117, 125;
-    --bs-black-rgb: 17, 17, 17;
-    --bs-light-rgb: 241, 241, 240;
-    --bs-dark-rgb: 33, 37, 41;
-  
-    --bs-link-color: #111;
-    --bs-link-color-rgb: 17, 17, 17;
-    --bs-link-decoration: underline;
-    --bs-link-hover-color: #111;
-    --bs-link-hover-color-rgb: 17, 17, 17;
+    font-family: "Jost", Roboto, sans-serif;
   }
-  
-  body {
-    letter-spacing: 0.03rem;
-  }
-  
-  h1,
-  .h1,
-  h2,
-  .h2,
-  h3,
-  .h3,
-  h4,
-  .h4,
-  h5,
-  .h5,
-  h6,
-  .h6 {
-    font-family: var(--heading-font);
-    font-weight: var(--heading-font-weight);
-    color: var(--heading-color);
-    line-height: var(--heading-line-height);
-  }
-  
-  h1.light,
-  .h1,
-  h2.light,
-  .h2,
-  h3.light,
-  .h3,
-  h4.light,
-  .h4,
-  h5.light,
-  .h5,
-  h6.light,
-  .h6 {
-    color: var(--light-color);
-  }
-  
-  h1,
-  h2,
-  h3 {
-    margin: 25px 0;
-  }
-  
-  h5,
-  h6 {
-    letter-spacing: 1px;
-  }
-  
-  h1,
-  .h1 {
-    font-size: 4.5rem;
-  }
-  
-  h2,
-  .h2 {
-    font-size: 3.6rem;
-  }
-  
-  h3,
-  .h3 {
-    font-size: 2.8rem;
-  }
-  
-  h4,
-  .h4 {
-    font-size: 1.8rem;
-  }
-  
-  h5,
-  .h5 {
-    font-size: 1.4rem;
-  }
-  
-  h6,
-  .h6 {
-    font-size: 1rem;
-  }
-  
-  a {
+
+a {
     text-decoration: none;
-  }
-  
-  /* container fluid */
-  .container-fluid {
-    /* width: 98%; */
-    max-width: 1800px;
-  }
-  
+}
   /* Dropdown */
   .dropdown-menu {
     --bs-dropdown-border-radius: 0;
@@ -176,12 +58,11 @@ body {
 }
 #sale-img{
     width: 450px;
-    background-color:black;
+    background-color:#3d3f41
 }
 .sale-banner{
-    background-color: black;
-    border: 2px solid black;
-    margin-bottom: 60px;
+    background-color:#3d3f41;
+    border: 1px solid black;
 }
 
 .lspacing{
@@ -299,4 +180,72 @@ body {
 .download-icons img {
     width: 140px;
 }
-
+/* General layout for products */
+.products {
+    display: flex;
+    flex-wrap: wrap;  /* Allow products to wrap into new rows */
+    gap: 20px;        /* Space between each card */
+    justify-content: space-around;  /* Center align cards */
+    margin: 20px;
+  }
+  
+  /* Card container styling */
+  .product-card {
+    background-color: #fff;         /* White background for the card */
+    border-radius: 10px;             /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 250px;                   /* Fixed card width */
+    overflow: hidden;               /* Hide any overflowing content */
+    transition: transform 0.3s ease; /* Smooth transform on hover */
+  }
+  
+  /* Image styling */
+  .product-image {
+    width: 100%;
+    height: 200px;                 /* Fixed height for images */
+    object-fit: cover;             /* Crop and center the image */
+  }
+  
+  /* Product info container styling */
+  .product-info {
+    padding: 15px;
+  }
+  
+  /* Product name styling */
+  .product-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  /* Product description styling */
+  .product-description {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+  }
+  
+  /* Product price styling */
+  .product-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #d9534f; /* Red color for price */
+  }
+  
+  /* Product category styling */
+  .product-category {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Card hover effect */
+  .product-card:hover {
+    transform: translateY(-10px); /* Lift the card on hover */
+  }
+  
+  /* Optional: Hover effect for images */
+  .product-card:hover .product-image {
+    transform: scale(1.05); /* Slight zoom-in effect on image */
+  }
+  

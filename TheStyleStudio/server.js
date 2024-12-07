@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require("mongoose");
 const expressEjsLayouts = require('express-ejs-layouts');
 const server = express();
+const Product = require('./models/products.model');
+const Category = require('./models/categories.model'); 
 
 server.set("view engine", "ejs");
 
@@ -14,9 +16,19 @@ server.use(express.urlencoded({ extended: true }));
 
 const port = 5000;
 
-server.get('/', (req, res) => {
-    res.render("homepage");
-});
+server.get('/', async (req, res) => {
+    try {
+      // Fetch all products and populate the category field
+      const products = await Product.find().populate('category');
+  
+      // Render homepage with products data
+      res.render("homepage.ejs", { products });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error fetching products');
+    }
+  });
+  
 
 server.get('/admin', (req, res) => {
     res.render("admin/dashboard", {

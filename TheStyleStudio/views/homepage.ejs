@@ -250,61 +250,22 @@
       </div>
     </div>
 
-    <!-- Product Grid Section -->
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-6 col-md-3 mb-4">
-          <div class="product-card">
-            <img
-              class="prod-img img-fluid"
-              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dw4688051b/images/hi-res/52647_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
-              alt="Translucent Daisy Backpack"
-            />
-            <p>Translucent Daisy Backpack</p>
-            <p><del>£35.00</del> <strong>£21.00</strong></p>
-            <button class="btn btn-custom">ADD TO BAG</button>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 mb-4">
-          <div class="product-card">
-            <img
-              class="prod-img img-fluid"
-              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dwd6e56414/images/hi-res/91130_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
-              alt="Rose Gold-tone Earrings"
-            />
-            <p>Rose Gold-tone 1" Filigree Earrings</p>
-            <p><del>£8.00</del> <strong>£4.00</strong></p>
-            <button class="btn btn-custom">ADD TO BAG</button>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 mb-4">
-          <div class="product-card">
-            <img
-              class="prod-img img-fluid"
-              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dw1e843da9/images/hi-res/67156_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
-              alt="Big Sis & Little Sis Necklace"
-            />
-            <p>Big Sis & Little Sis Split Butterfly Necklace</p>
-            <p><del>£12.00</del> <strong>£6.00</strong></p>
-            <button class="btn btn-custom">ADD TO BAG</button>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 mb-4">
-          <div class="product-card">
-            <img
-              class="prod-img img-fluid"
-              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dw68885bfe/images/hi-res/73127_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
-              alt="Star Sequin Hair Bow Clips"
-            />
-            <p>Star Sequin Hair Bow Clips - 6 Pack</p>
-            <p><del>£5.50</del> <strong>£2.75</strong></p>
-            <button class="btn btn-custom">ADD TO BAG</button>
-          </div>
-        </div>
+    <!-- Clothes Section -->
+<div class="products">
+  <% products.forEach(product => { %>
+    <div class="product-card">
+      <img src="<%= product.image %>" alt="<%= product.name %>" class="product-image">
+      <div class="product-info">
+        <h2 class="product-name"><%= product.name %></h2>
+        <p class="product-description"><%= product.description %></p>
+        <p class="product-price">Rs.<%= product.price %></p>
+        <p class="product-category">Category: <%= product.category.name %></p>
       </div>
     </div>
+  <% }) %>
+</div>
 
-    <!--Best Seller-->
+  <!--Best Seller-->
     <div class="container mt-5">
       <div class="col-md-12">
         <div class="best-seller-title">
