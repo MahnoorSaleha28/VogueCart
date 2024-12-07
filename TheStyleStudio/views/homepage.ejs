@@ -114,22 +114,16 @@
                     </li>
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="dropdownPages" data-bs-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">Shoes</a>
+                        aria-haspopup="true" aria-expanded="false">Toys</a>
                       <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
                         <li>
-                          <a href="index.html" class="dropdown-item item-anchor">Heels</a>
+                          <a href="index.html" class="dropdown-item item-anchor">Stuffed Toys</a>
                         </li>
                         <li>
-                          <a href="index.html" class="dropdown-item item-anchor">Sandals</a>
+                          <a href="index.html" class="dropdown-item item-anchor">Cars</a>
                         </li>
                         <li>
-                          <a href="index.html" class="dropdown-item item-anchor">Flats</a>
-                        </li>
-                        <li>
-                          <a href="index.html" class="dropdown-item item-anchor">Casuals</a>
-                        </li>
-                        <li>
-                          <a href="index.html" class="dropdown-item item-anchor">Formals</a>
+                          <a href="index.html" class="dropdown-item item-anchor">Dolls</a>
                         </li>
                       </ul>
                     </li>
@@ -226,7 +220,7 @@
         </div>
       </div>
     </div>
-    <!-- Best Seller -->
+    <!-- Best Seller Heading-->
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -250,22 +244,100 @@
       </div>
     </div>
 
-    <!-- Clothes Section -->
-<div class="products">
-  <% products.forEach(product => { %>
-    <div class="product-card">
-      <img src="<%= product.image %>" alt="<%= product.name %>" class="product-image">
-      <div class="product-info">
-        <h2 class="product-name"><%= product.name %></h2>
-        <p class="product-description"><%= product.description %></p>
-        <p class="product-price">Rs.<%= product.price %></p>
-        <p class="product-category">Category: <%= product.category.name %></p>
+    <!-- Best Seller Products -->
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-6 col-md-3 mb-4">
+          <div class="product-card">
+            <img
+              class="prod-img img-fluid"
+              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dw4688051b/images/hi-res/52647_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
+              alt="Translucent Daisy Backpack"
+            />
+            <p>Translucent Daisy Backpack</p>
+            <p><del>Rs.3500</del> <strong>Rs.2100</strong></p>
+            <button class="btn btn-custom">ADD TO BAG</button>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="product-card">
+            <img
+              class="prod-img img-fluid"
+              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dwd6e56414/images/hi-res/91130_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
+              alt="Rose Gold-tone Earrings"
+            />
+            <p>Rose Gold-tone Filigree Earrings</p>
+            <p><del>Rs.4000</del> <strong>Rs.3000</strong></p>
+            <button class="btn btn-custom">ADD TO BAG</button>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="product-card">
+            <img
+              class="prod-img img-fluid"
+              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dw1e843da9/images/hi-res/67156_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
+              alt="Big Sis & Little Sis Necklace"
+            />
+            <p>Butterfly Necklace</p>
+            <p><del>Rs.1200</del> <strong>Rs.899</strong></p>
+            <button class="btn btn-custom">ADD TO BAG</button>
+          </div>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <div class="product-card">
+            <img
+              class="prod-img img-fluid"
+              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dw68885bfe/images/hi-res/73127_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
+              alt="Star Sequin Hair Bow Clips"
+            />
+            <p>Hair Bow Clips-6 Pack</p>
+            <p><del>Rs.550</del> <strong>Rs.275</strong></p>
+            <button class="btn btn-custom">ADD TO BAG</button>
+          </div>
+        </div>
       </div>
     </div>
-  <% }) %>
-</div>
 
-  <!--Best Seller-->
+    <div class="main-container">
+      <% if (categoryProducts && categoryProducts.length > 0) { %>
+        <% categoryProducts.forEach(category => { %>
+          <!-- Category Section -->
+          <div class="container mt-5">
+            <h2 class="mb-4 text-center"><%= category.category %></h2> <!-- Centered Category Title -->
+            <div class="row justify-content-center">
+              <% category.products.forEach(product => { %>
+                <div class="col-6 col-md-3 mb-4">
+                  <div class="product-card">
+                    <div class="product-image-container">
+                      <img
+                        class="prod-img img-fluid"
+                        src="<%= product.image %>"
+                        alt="<%= product.name %>"
+                      />
+                    </div>
+                    <div class="product-info">
+                      <h5 class="product-name"><%= product.name %></h5>
+                      <p class="product-price">
+                        <% if (product.originalPrice) { %>
+                          <del>Rs.<%= product.originalPrice %></del>
+                        <% } %>
+                        <strong>Rs.<%= product.price %></strong>
+                      </p>
+                      <button class="btn btn-custom">ADD TO BAG</button>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No products found in the specified categories.</p>
+      <% } %>
+    </div>
+    
+    
+  <!--Brands Heading-->
     <div class="container mt-5">
       <div class="col-md-12">
         <div class="best-seller-title">

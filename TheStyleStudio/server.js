@@ -18,18 +18,31 @@ const port = 5000;
 
 server.get('/', async (req, res) => {
     try {
-      // Fetch all products and populate the category field
-      const products = await Product.find().populate('category');
+      // Specify the desired categories
+      const mainCategories = ['Clothes', 'Jewelry', 'Bags', 'Toys', 'Accessories'];
   
-      // Render homepage with products data
-      res.render("homepage.ejs", { products });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('Error fetching products');
+      // Fetch these categories from the database
+      const categories = await Category.find({ name: { $in: mainCategories } });
+  
+      // Fetch products for each of these categories
+      const categoryProducts = await Promise.all(
+        categories.map(async (category) => {
+          const products = await Product.find({ category: category._id }).limit(5); // Adjust the number of products
+          return {
+            category: category.name,
+            products: products,
+          };
+        })
+      );
+  
+      // Render the homepage with category and product data
+      res.render('homepage.ejs', { categoryProducts });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Server Error");
     }
   });
   
-
 server.get('/admin', (req, res) => {
     res.render("admin/dashboard", {
         layout: "adminlayout", 
