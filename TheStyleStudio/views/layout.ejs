@@ -6,11 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/style.css">
-    <%-defineContent("styles-area") %>
+    <%- include('partials/navbar') %> <!-- Include the Navbar Partial Here -->
+    <%- defineContent("styles-area") %> <!-- You can override this section if needed -->
 </head>
-    <%-body %>
+<body>
+    <%- body %> <!-- Main content section where content will be injected -->
+    
     <hr>
     <h5>Footer</h5>
-    <%-defineContent("footer-area") %>
+    <%- include('partials/footer') %> <!-- Include the Footer Partial Here -->
+    <%- defineContent("footer-area") %> <!-- This section can be overridden if needed -->
 </body>
 </html>

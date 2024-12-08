@@ -1,18 +1,35 @@
-<div class="row">
-  <% if (products && products.length > 0) { %>
-    <% for (let index = 0; index < products.length; index++) { %>
-      <div class="col-4">
-        <div class="card" style="width: 18rem;">
-          <img src="<%= products[index].image %>" class="card-img-top" alt="Product Image">
-          <div class="card-body">
-            <h5 class="card-title"><%= products[index].name %></h5>
-            <p class="card-text"><%= products[index].description %></p>
-            <p class="card-text">Price: $<%= products[index].price %></p>
-          </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Clothes</h1>
+
+        <!-- Products Grid -->
+        <div class="row">
+            <% products.forEach(function(product) { %>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card">
+                        <img src="<%= product.image %>" class="card-img-top" alt="<%= product.name %>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.name %></h5>
+                            <p class="card-text"><%= product.description %></p>
+                            <p class="text-muted">Price: Rs.<%= product.price %></p>
+                            <a href="#" class="btn btn-primary">View Product</a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
         </div>
-      </div>
-    <% } %>
-  <% } else { %>
-    <p>No products available.</p>
-  <% } %>
-</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
