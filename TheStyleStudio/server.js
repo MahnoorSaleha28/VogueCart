@@ -49,6 +49,13 @@ server.get('/admin', (req, res) => {
     });
 });
 
+server.get('/admin/dashboard', (req, res) =>{
+  res.render("admin/dashboard", {
+    layout: "adminlayout" ,
+    pageTitle: "Admin Dashboard"
+  })
+})
+
 //adminProductsRouter to handle all the product-related routes
 let adminProductsRouter = require("./routes/admin/products.controller");
 server.use(adminProductsRouter);
