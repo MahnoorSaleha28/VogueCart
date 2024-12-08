@@ -1,35 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Clothes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/clothes.css">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Clothes</h1>
-
-        <!-- Products Grid -->
-        <div class="row">
-            <% products.forEach(function(product) { %>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                    <div class="card">
-                        <img src="<%= product.image %>" class="card-img-top" alt="<%= product.name %>">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= product.name %></h5>
-                            <p class="card-text"><%= product.description %></p>
-                            <p class="text-muted">Price: Rs.<%= product.price %></p>
-                            <a href="#" class="btn btn-primary">View Product</a>
-                        </div>
-                    </div>
-                </div>
-            <% }) %>
+  <div class="container my-5">
+    <h2 class=" mb-4">Stylish Collection</h2>
+    <!-- Filter and Sort Section -->
+    <div class="d-flex justify-content-between   mb-4">
+        <!-- Filter Dropdown -->
+        <div class="dropdown">
+          <button class="  btn btn-outline-secondary text-black border-secondary-subtle  filter-sort-wrapper dropdown-toggle"style="padding-right:110px;"  type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false" >
+            <i class="icon fa-solid fa-sliders pe-1" ></i> Filter
+          </button>
+          <ul class=" dropdown-menu " aria-labelledby="filterDropdown">
+            <li><a class="dropdown-item" href="#">Category 1</a></li>
+            <li><a class="dropdown-item" href="#">Category 2</a></li>
+            <li><a class="dropdown-item" href="#">Category 3</a></li>
+          </ul>
+        </div>
+  
+        <!-- Sort By Dropdown -->
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary text-black border-secondary-subtle custom-dropdown-btn dropdown-toggle"style="padding-right:110px;" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-sort pe-1"></i> Sort by
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+            <li><a class="dropdown-item" href="#">Price</a></li>
+            <li><a class="dropdown-item" href="#">Rating</a></li>
+            <li><a class="dropdown-item" href="#">Newest</a></li>
+          </ul>
         </div>
     </div>
+    <div class="row ">
+      <% clothes.forEach(product => { %> <!-- Loop over 'clothes' variable -->
+        <div class="col-6 col-sm-2 col-md-3 mb-5">
+          <div class="product-card border-0" style="width: 17rem;">
+            <img class="prod-img img-fluid" src="<%= product.image %>" alt="<%= product.title %>">
+            <div class="product-info">
+             <h5 class="card-title"><%= product.name %></h5>
+              <p class="card-text">Rs.<%= product.price %></p>
+              <a href="#" class="btn btn-custom">ADD TO BAG</a>
+            </div>
+            
+          </div>
+        </div>
+      <% }); %>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+
+    <div class="pagination mb-3">
+        Page <%= page %> of <%= totalPages %>
+    </div>
+    <ul class="pagination">
+        <!-- Previous Button -->
+        <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="/clothes/<%= page - 1 %>">Previous</a>
+        </li>
+    
+        <!-- Always display page 1 and page 2 -->
+        <li class="page-item <%= page == 1 ? 'active' : '' %>">
+            <a class="page-link" href="/clothes/1">1</a>
+        </li>
+        <li class="page-item <%= page == 2 ? 'active' : '' %>">
+            <a class="page-link" href="/clothes/2">2</a>
+        </li>
+    
+        <!-- Next Button (disabled if on page 2) -->
+        <li class="page-item <%= page == 2 ? 'disabled' : '' %>">
+            <a class="page-link" href="/clothes/<%= page + 1 %>">Next</a>
+        </li>
+    </ul>
+    
+    
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

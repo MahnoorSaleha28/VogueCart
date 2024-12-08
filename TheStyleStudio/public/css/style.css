@@ -1,17 +1,11 @@
 body {
-<<<<<<< Updated upstream
     font-family: "Jost", Roboto, sans-serif;
     background-color: #e9e9e9;
   }
-=======
-  font-family: "Jost", Roboto, sans-serif;
-}
->>>>>>> Stashed changes
 
 a {
   text-decoration: none;
 }
-<<<<<<< Updated upstream
 .white-space{
     height: 40px;
 }
@@ -62,75 +56,17 @@ a {
     transition: background-color 0.6s ease-out;
   }
   
-=======
-/* Dropdown */
-.dropdown-menu {
-  --bs-dropdown-border-radius: 0;
-  --bs-dropdown-border-width: 0;
-}
-
-.dropdown-item {
-  --bs-dropdown-item-padding-y: 0.25rem;
-  --bs-dropdown-item-padding-x: 1rem;
-  --bs-dropdown-link-color: var(--bs-black);
-  --bs-dropdown-item-border-radius: 0;
-}
-
-.dropdown-item.active,
-.dropdown-item:active {
-  --bs-dropdown-link-active-color: var(--bs-light);
-  --bs-dropdown-link-active-bg: var(--bs-black);
-}
-
-/* list group */
-.list-group-item {
-  --bs-list-group-item-padding-x: 0;
-  --bs-list-group-border-width: 0;
-}
-
-/* preloader */
-.preloader {
-  position: fixed;
-  z-index: 99;
-  background: #111;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: height 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
-
-.preloader.loaded {
-  height: 0;
-}
-
-/* navbar */
-.navbar.fixed-top {
-  transition: background-color 0.6s ease-out;
-}
-
->>>>>>> Stashed changes
 .sticky-top{
   background-color: white;
   z-index: 10000px;
 }
 #sale-img{
-<<<<<<< Updated upstream
     width: 450px;
     background-color:#5f5e5e
 }
 .sale-banner{
     background-color:#5f5e5e;
     border: 1px solid black;
-=======
-  width: 450px;
-  background-color:#3d3f41
-}
-.sale-banner{
-  background-color:#3d3f41;
-  border: 1px solid black;
->>>>>>> Stashed changes
 }
 
 .lspacing{
@@ -138,7 +74,6 @@ a {
   font-size: 17px;
 }
 
-<<<<<<< Updated upstream
 .btn-custom1{
     color: rgb(0, 0, 0);
     font-weight: bolder;
@@ -157,35 +92,6 @@ a {
     flex-direction: row;
     position: relative;
     margin-top: 80px;
-=======
-.btn-custom{
-  color: white;
-  background-color: black;
-}
-.btn-custom:hover{
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-}
-
-.btn-custom2{
-  position: absolute;
-  top: 87%;
-  left: 43%;
-  background-color: #553d94;
-  color: white;
-}
-.btn-custom2:hover{
-  background-color: white;
-  color: #553d94;
-  border: 2px solid #553d94;
-}
-.best-seller-title{
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  margin-top: 60px;
->>>>>>> Stashed changes
 }
 .arrow-img{
   width: 50px;
@@ -193,15 +99,9 @@ a {
   top: 20%;
 }
 .circle-img{
-<<<<<<< Updated upstream
     position: absolute;
     width: 100px;
     left: 2%;
-=======
-  position: absolute;
-  width: 100px;
-  left: 8%;
->>>>>>> Stashed changes
 }
 .shop-all{
   position: absolute;
@@ -215,7 +115,6 @@ a {
   width: 250px;
 }
 .brands-imgs{
-<<<<<<< Updated upstream
     width: 180px;
     margin-left: 150px;
     margin-bottom: 100px;
@@ -229,19 +128,6 @@ a {
     margin-top: 150px;
     background-color: #f5f0ff;
     padding: 40px 0;
-=======
-  width: 180px;
-  margin-left: 150px;
-  margin-bottom: 50px;
-}
-.view-gallery{
-  color: black;
-  text-underline-offset: 10px;
-}
-.footer {
-  background-color: #f5f0ff;
-  padding: 40px 0;
->>>>>>> Stashed changes
 }
 
 .footer h6{
@@ -251,19 +137,11 @@ a {
   font-size: 12px;
 }
 .btn-custom4 {
-<<<<<<< Updated upstream
     width: 180px;
     background-color:transparent;
     color: #77747e;
     border-radius: 25px;
     border: 2px solid #78777c;
-=======
-  width: 180px;
-  background-color:transparent;
-  color: #553d94;
-  border-radius: 25px;
-  border: 2px solid #553d94;
->>>>>>> Stashed changes
 }
 .btn-custom3 {
   width: 130px;
@@ -398,7 +276,6 @@ a {
   .product-price {
     font-size: 12px;
   }
-<<<<<<< Updated upstream
   
   /* Custom button styling */
   .btn-custom {
@@ -431,7 +308,5 @@ a {
       font-size: 12px;
     }
   }
-  
-=======
 }
->>>>>>> Stashed changes
+  
