@@ -1,0 +1,18 @@
+<div class="row">
+  <% if (products && products.length > 0) { %>
+    <% for (let index = 0; index < products.length; index++) { %>
+      <div class="col-4">
+        <div class="card" style="width: 18rem;">
+          <img src="<%= products[index].image %>" class="card-img-top" alt="Product Image">
+          <div class="card-body">
+            <h5 class="card-title"><%= products[index].name %></h5>
+            <p class="card-text"><%= products[index].description %></p>
+            <p class="card-text">Price: $<%= products[index].price %></p>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  <% } else { %>
+    <p>No products available.</p>
+  <% } %>
+</div>
