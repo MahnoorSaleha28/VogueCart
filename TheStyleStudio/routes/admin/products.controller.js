@@ -115,15 +115,23 @@ router.post("/admin/products/delete/:id", async(req, res) => {
 
 router.get('/clothes', async (req, res) => {
   try {
-    // Query database for products in the "cloth" category
-    const clothes = await Product.find({ category: 'Clothes' });
-    
-    // Pass 'clothes' to the template
-    res.render('clothes', { clothes: clothes }); // Use 'clothes' here
+    // Fetch the "Clothes" category and populate its products
+    const category = await Category.findOne({ name: 'Clothes' }).populate('products');
+    if (!category) {
+      console.log('Category not found');
+      return res.status(404).send('Category not found');
+    }
+
+    const products = category.products; // Get the products of the "Clothes" category
+
+    // Render the products page with all products
+    res.render('clothes', { products }); // Pass the list of products to the template
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
   }
 });
+
+
 
 module.exports = router;
