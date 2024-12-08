@@ -111,4 +111,23 @@ router.post("/admin/products/delete/:id", async(req, res) => {
   }
 });
 
+<<<<<<< Updated upstream
 module.exports = router;
+=======
+
+
+router.get('/clothes', async (req, res) => {
+  try {
+    // Query database for products in the "cloth" category
+    const clothes = await Product.find({ category: 'Clothes' });
+    
+    // Pass 'clothes' to the template
+    res.render('clothes', { clothes: clothes }); // Use 'clothes' here
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
+module.exports = router;
+>>>>>>> Stashed changes
