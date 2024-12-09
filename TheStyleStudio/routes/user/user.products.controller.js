@@ -56,6 +56,32 @@ router.get('/jewellery', async (req, res) => {
     res.status(500).send('Error loading Jewellery page');
   }
 });
+
+router.get('/bags', async (req, res) => {
+  try {
+    // Find bags category by name
+    const bagsCategory = await Category.findOne({ name: 'Bags' });
+
+    if (!bagsCategory) {
+      return res.status(404).send('Bags category not found.');
+    }
+
+    // Fetch all products under the bags category
+    const products = await Product.find({ category: bagsCategory._id });
+
+    // Render the Jewellery page
+    res.render('bags', { 
+      layout: 'layout', 
+      pageTitle: 'Bags', 
+      products: products, 
+      totalProducts: products.length 
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error loading Bags page');
+  }
+});
+
 router.get('/accessories', async (req, res) => {
   try {
    
