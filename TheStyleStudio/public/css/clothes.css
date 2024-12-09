@@ -1,0 +1,89 @@
+body{
+    background-color:#f1f1f1;
+}
+.container h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: #333;
+  }
+  
+  /* Product card container */
+  .product-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+  }
+  
+  /* Hover effect for product card */
+  .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  
+  .prod-img {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+   height:250px;
+    
+  }
+  
+  /* Zoom effect on hover */
+  .product-card:hover .product-image-container img {
+    transform: scale(1.1);
+  }
+  
+  /* Product information styling */
+  .product-info {
+    margin-top: 15px;
+  }
+  
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .card-text {
+    font-size: 14px;
+    color: #555;
+  }
+  /* Custom button styling */
+  .btn-custom {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+  
+.btn-custom:hover {
+    background-color: #d1c7c5;
+    transform: scale(1.1);
+}
+
+.custom-dropdown-btn {
+    width:200px; /* Increase button size */
+     margin-right:700px;
+}
+.filter-sort-wrapper {
+    gap:10px;
+    width: 200px;
+}
+
+.pagination{
+    margin-left: 460px;
+}
