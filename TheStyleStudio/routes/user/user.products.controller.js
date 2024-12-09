@@ -24,4 +24,29 @@ router.get('/clothes', async (req, res) => {
   }
 });
 
+router.get('/jewellery', async (req, res) => {
+  try {
+    // Find Jewellery category by name
+    const jewelleryCategory = await Category.findOne({ name: 'Jewellery' });
+
+    if (!jewelleryCategory) {
+      return res.status(404).send('Jewelry category not found.');
+    }
+
+    // Fetch all products under the Jewelry category
+    const products = await Product.find({ category: jewelleryCategory._id });
+
+    // Render the Jewellery page
+    res.render('jewellery', { 
+      layout: 'layout', 
+      pageTitle: 'Jewellery', 
+      products: products, 
+      totalProducts: products.length 
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error loading Jewellery page');
+  }
+});
+
 module.exports = router;
