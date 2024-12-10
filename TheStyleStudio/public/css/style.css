@@ -124,72 +124,146 @@ a {
     color: black;
     text-underline-offset: 10px;
 }
-.footer {
-    margin-top: 150px;
-    background-color: #f5f0ff;
-    padding: 40px 0;
+footer {
+  color: #000000;
+}
+ul {
+  padding: 0px;
+}
+ol, ul {
+  margin-bottom: 0px;
 }
 
-.footer h6{
-    color: #553d94;
+.social-icon {
+  padding: 0;
+  margin-bottom: 0px;
+  float: right;
 }
-.footer p{
-    font-size: 12px;
+
+.social-icon li {
+  list-style: none;
+  display: inline-block;
 }
-.btn-custom4 {
-    width: 180px;
-    background-color:transparent;
-    color: #77747e;
-    border-radius: 25px;
-    border: 2px solid #78777c;
+.social-icon img{
+  width: 50px;
+  margin-right: 5px;
 }
-.btn-custom3 {
-    width: 130px;
-    color: #fff;
-    border-radius: 25px;
-    padding: 10px 20px;
+.social-icon li i {
+  font-size: 14px;
+  color: #ffffff;
+  border: solid 2px #ffffff;
+  width: 50px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 100px;
+  line-height: 27px;
+  margin-right: 15px;
+  transition: 1s;
+  background: #fff;
 }
-.btn-custom4:hover {
-    background-color: #787482;
+.social-icon li i:hover {
+  border: solid 2px #262725;
+  color: #ffffff;
+  background: #989b96;
 }
-.btn-custom3:hover {
-    background-color: #6d628a;
+
+.phone-no i {
+  position: relative;
+  margin-right: 14px;
+  font-size: 43px;
+  top: 5px;
 }
-.footer ul {
-    list-style-type: none;
+.phone-no {
+  margin-top: -22px;
+  text-align: right;
 }
-.footer ul li {
-    margin-bottom: 10px;
+.phone-no a {
+  color: #fff;
+  font-family: PlayfairDisplay-Black;
+  font-size: 34px;
+  font-weight: bold;
 }
-.footer ul li a {
-    color: black;
-    font-size: 12px;
-    text-decoration: none;
+.footer-top {
+  margin-top: 150px;
+  background: #706f6f;
+  padding:50px 0 50px;
 }
-.footer ul li a:hover {
-    text-decoration: underline;
+.footer-top h4 {
+  font-size: 19px;
+  text-transform: uppercase;
+  color: #e9e9e9;
+  margin-bottom: 30px;
 }
-.social-links img{
-    width: 50px;
-    margin-right: 10px;
+.footer-top p {
+  font-size: 13px;
+  line-height: 2;
 }
-.download-icons img {
-    width: 140px;
+
+footer p {
+margin-bottom:0;
 }
-/* General container spacing */
-.main-container {
-    padding: 20px;
-  }
-  
-  /* Category title styling */
-  .container h2 {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    color: #333;
-  }
-  
+.footer-logo {
+  display: block;
+  margin-bottom: 32px;
+}
+.address1 li {
+  list-style: none;
+  position: relative;
+  padding: 0px 0 14px 34px;
+  line-height: 26px;
+}
+ul.address1 span {
+  position: absolute;
+  width: 40px;
+  max-width: 40px;
+  left: 0;
+}
+.address1 li a {
+  color: #000000;
+  text-decoration: none;
+}
+ul.address1 i {
+  width: 20px;
+  position: absolute;
+  left: 0px;
+  text-align: center;
+  font-size: 28px;
+  top: 0;
+}
+
+ul.address1 i.fa-envelope {
+  font-size: 18px;
+  top: 4px;
+}
+footer ul.social-icon {
+  float: left;
+}
+
+.footer-bottom {
+  background: #000000;
+  padding: 10px 0px;
+  color: white;
+}
+.footer-bottom ul li {
+  display: inline;
+  margin-right: 20px;
+  font-size: 18px;
+}
+.footer-bottom ul li a{
+  color:#fff;
+}
+
+.footer-bottom ul {
+  float: right;
+}
+
+.footer-bottom ul li:last-child {
+  margin-right: 0;
+}
+.copyright {
+  font-size: 18px;
+}
+
   /* Product card container */
   .product-card {
     background: #fff;
