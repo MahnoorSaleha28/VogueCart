@@ -113,5 +113,25 @@ router.get('/accessories', async (req, res) => {
     res.status(500).send('Error fetching products');
   }
 });
+router.get('/toys', async (req, res) => {
+  try {
+   
+
+    const category = await Category.findOne({ name: 'Toys' });
+    if (!category) {
+      console.error("Category 'Toys' not found");
+      return res.status(404).send("Category 'Toys' not found");
+    }
+
+    const toys = await Product.find({ category: category._id })
+    if (!toys.length) {
+      console.warn('No products found for the "Toys" category');
+    }
+    res.render('toys', { toys: toys });
+  } catch (error) {
+    console.error('Error fetching products:', error.message);
+    res.status(500).send('Error fetching products');
+  }
+});
 
 module.exports = router;
