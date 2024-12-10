@@ -5,32 +5,43 @@ let Category = require("../../models/categories.model");
 
 router.get('/clothes/:page?', async (req, res) => {
   try {
-
-    let page = req.params.page;
-    page = page ? Number(page) : 1;
-    let pageSize = 12;
-    let totalRecords = await Product.countDocuments();
-    let totalPages = Math.ceil(totalRecords / pageSize);
+    // Fetch the "Clothes" category
     const category = await Category.findOne({ name: 'Clothes' });
+    if (!category) {
+      return res.status(404).send('Category "Clothes" not found');
+    }
 
 
+    // Pagination logic
+    let page = req.params.page ? Number(req.params.page) : 1; // Default to page 1 if not provided
+    let pageSize = 12;
+
+    // Count total products for the "Clothes" category
+    let totalRecords = await Product.countDocuments({ category: category._id });
+
+  
+    let totalPages = Math.ceil(totalRecords / pageSize); // Calculate total pages
+
+    // Fetch products for the current page
     const clothes = await Product.find({ category: category._id })
-    .limit(pageSize)
-    .skip((page - 1) * pageSize);
+      .limit(pageSize)
+      .skip((page - 1) * pageSize);
 
-    // Pass clothes to the view
-    res.render('clothes', { 
-      clothes: clothes,
-      page:page,
-      pageSize:pageSize,
-      totalPages:totalPages,
-      totalRecords:totalRecords,
-     });
+    // Render the view
+    res.render('clothes', {
+      clothes,           
+      page,             
+      pageSize,          
+      totalPages,        
+      totalRecords,      
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error fetching products');
   }
 });
+
+
 
 router.get('/jewellery', async (req, res) => {
   try {
@@ -97,6 +108,26 @@ router.get('/accessories', async (req, res) => {
       console.warn('No products found for the "Accessories" category');
     }
     res.render('accessories', { accessories: accessories });
+  } catch (error) {
+    console.error('Error fetching products:', error.message);
+    res.status(500).send('Error fetching products');
+  }
+});
+router.get('/toys', async (req, res) => {
+  try {
+   
+
+    const category = await Category.findOne({ name: 'Toys' });
+    if (!category) {
+      console.error("Category 'Toys' not found");
+      return res.status(404).send("Category 'Toys' not found");
+    }
+
+    const toys = await Product.find({ category: category._id })
+    if (!toys.length) {
+      console.warn('No products found for the "Toys" category');
+    }
+    res.render('toys', { toys: toys });
   } catch (error) {
     console.error('Error fetching products:', error.message);
     res.status(500).send('Error fetching products');
