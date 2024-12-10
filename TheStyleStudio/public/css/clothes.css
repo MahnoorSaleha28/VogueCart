@@ -33,7 +33,6 @@ body{
     overflow: hidden;
     transition: transform 0.3s ease;
     border-radius: 8px;
-   height:250px;
     
   }
   
@@ -82,8 +81,4 @@ body{
 .filter-sort-wrapper {
     gap:10px;
     width: 200px;
-}
-
-.pagination{
-    margin-left: 460px;
 }

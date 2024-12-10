@@ -5,13 +5,27 @@ let router = express.Router();
 let Product = require("../../models/products.model")
 let Category = require("../../models/categories.model");
 
-router.get('/admin/products', async (req, res) => {
+router.get('/admin/products/:page?', async (req, res) => {
   try {
-      let products = await Product.find().populate('category');
+    //adding pagination
+    let page = req.params.page;
+    page = page ? Number(page) : 1;
+    let pageSize = 12;
+    let totalRecords = await Product.countDocuments();
+    let totalPages = Math.ceil(totalRecords / pageSize);
+
+      let products = await Product.find().populate('category')
+      .limit(pageSize)
+      .skip((page - 1) * pageSize);
+
       res.render('admin/products/index', {
           layout: 'adminlayout',
           pageTitle: 'Manage Products',
-          products
+          products,
+          page:page,
+          pageSize:pageSize,
+          totalPages:totalPages,
+          totalRecords:totalRecords,
       });
   } catch (err) {
       console.error(err);
