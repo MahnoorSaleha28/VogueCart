@@ -1,6 +1,15 @@
 body{
     background-color:#f1f1f1;
 }
+.breadcrumb a {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  
+} 
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
 .container h2 {
     font-size: 28px;
     font-weight: bold;
@@ -33,7 +42,6 @@ body{
     overflow: hidden;
     transition: transform 0.3s ease;
     border-radius: 8px;
-   height:250px;
     
   }
   
@@ -82,8 +90,4 @@ body{
 .filter-sort-wrapper {
     gap:10px;
     width: 200px;
-}
-
-.pagination{
-    margin-left: 460px;
 }

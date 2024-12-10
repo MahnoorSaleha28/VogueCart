@@ -9,8 +9,17 @@
   <link rel="stylesheet" href="/css/clothes.css">
 </head>
 <body>
+  <nav aria-label="breadcrumb "style="margin-left:110px; margin-top:10px; ">
+    <ol class="breadcrumb ">
+        <li class="breadcrumb-item">
+            <a href="/">Home </a>
+            >
+            <a  href="/clothes">Clothes</a>
+        </li>
+    </ol>
+</nav>
   <div class="container my-5">
-    <h2 class=" mb-4">Stylish Collection</h2>
+    <h2 class=" mb-4">Clothes Collection</h2>
     <!-- Filter and Sort Section -->
     <div class="d-flex justify-content-between   mb-4">
         <!-- Filter Dropdown -->
@@ -54,28 +63,32 @@
 
     </div>
 
-    <div class="pagination mb-3">
-        Page <%= page %> of <%= totalPages %>
-    </div>
-    <ul class="pagination">
-        <!-- Previous Button -->
-        <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
-            <a class="page-link" href="/clothes/<%= page - 1 %>">Previous</a>
-        </li>
-    
-        <!-- Always display page 1 and page 2 -->
-        <li class="page-item <%= page == 1 ? 'active' : '' %>">
-            <a class="page-link" href="/clothes/1">1</a>
-        </li>
-        <li class="page-item <%= page == 2 ? 'active' : '' %>">
-            <a class="page-link" href="/clothes/2">2</a>
-        </li>
-    
-        <!-- Next Button (disabled if on page 2) -->
-        <li class="page-item <%= page == 2 ? 'disabled' : '' %>">
-            <a class="page-link" href="/clothes/<%= page + 1 %>">Next</a>
-        </li>
-    </ul>
+    <ul class="pagination justify-content-center p-3">
+      <!-- Previous Button -->
+      <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
+          <a class="page-link text-secondary" href="/clothes/<%= page - 1 %>">Previous</a>
+      </li>
+  
+      <!-- Loop to generate page numbers -->
+      <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= page == i ? 'active' : '' %>">
+              <a 
+                  class="page-link <%= page == i ? 'bg-secondary text-white' : 'text-secondary' %>" 
+                  href="/clothes/<%= i %>">
+                  <%= i %>
+              </a>
+          </li>
+      <% } %>
+  
+      <!-- Next Button -->
+      <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
+          <a class="page-link text-secondary" href="/clothes/<%= page + 1 %>">Next</a>
+      </li>
+  </ul>
+  
+  <div class="pagination mb-3 justify-content-center">
+      Page <%= page %> of <%= totalPages %>
+  </div>
     
     
   </div>
