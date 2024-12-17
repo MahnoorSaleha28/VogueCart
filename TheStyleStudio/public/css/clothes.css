@@ -84,10 +84,10 @@ body{
 }
 
 .custom-dropdown-btn {
-    width:200px; /* Increase button size */
-     margin-right:700px;
+  width:200px; 
+   margin-right:880px;
 }
 .filter-sort-wrapper {
-    gap:10px;
-    width: 200px;
+
+  width: 200px;
 }
