@@ -54,7 +54,10 @@
             <div class="product-info">
              <h5 class="card-title"><%= product.name %></h5>
               <p class="card-text">Rs.<%= product.price %></p>
-              <a href="#" class="btn btn-custom">ADD TO BAG</a>
+              <form action="/cart/add" method="POST">
+                <input type="hidden" name="productId" value="<%= product.id %>">
+                <button type="submit" class="btn btn-custom">ADD TO BAG</button>
+            </form>
             </div>
             
           </div>

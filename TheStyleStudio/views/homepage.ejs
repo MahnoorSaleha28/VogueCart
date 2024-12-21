@@ -124,7 +124,10 @@
                         <% } %>
                         <strong>Rs.<%= product.price %></strong>
                       </p>
-                      <button class="btn btn-custom">ADD TO BAG</button>
+                      <form action="/cart/add" method="POST">
+                        <input type="hidden" name="productId" value="<%= product.id %>">
+                        <button type="submit" class="btn btn-custom">ADD TO BAG</button>
+                    </form>
                     </div>
                   </div>
                 </div>

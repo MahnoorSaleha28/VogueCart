@@ -1,116 +1,165 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg bg-light text-uppercase fs-6 p-3 border-bottom align-items-center sticky-top">
-  <div class="container-fluid">
-    <!-- Logo -->
-    <a class="navbar-brand text-white" href="/">
-      <img src="../images/logo.png" style="width: 200px;">
-    </a>
-    
-    <!-- Toggler Button for Mobile -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Offcanvas Menu -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <!-- Navigation Links -->
-        <ul class="navbar-nav justify-content-between flex-grow-1 pe-2">
-          <!-- Clothes Dropdown -->
-          <li class="nav-item dropdown ">
-            <a class="nav-link dropdown-toggle active" href="/clothes" id="dropdownHome" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clothes</a>
-            <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownHome">
-              <li><a href="/clothes" class="dropdown-item item-anchor">All</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Summers'24</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Winters'24</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Autumn'24</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Spring'24</a></li>
-            </ul>
-          </li>
-          <!-- Jewellery Dropdown -->
-          <li class="nav-item dropdown me-3 ">
-            <a class="nav-link dropdown-toggle" href="/jewellery" id="dropdownShop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jewellery</a>
-            <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownShop">
-              <li><a href="/jewellery" class="dropdown-item item-anchor">All</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Earrings</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Necklace</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Rings</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Bracelets</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Pendants</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Silver Range</a></li>
-            </ul>
-          </li>
-          <!-- Bags Dropdown -->
-          <li class="nav-item dropdown me-4">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdownBlog" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bags</a>
-            <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownBlog">
-              <li><a href="/bags" class="dropdown-item item-anchor">All</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Shoulder Bags</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Handbags</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">School Bags</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Wallets</a></li>
-            </ul>
-          </li>
-          <!-- Toys Dropdown -->
-          <li class="nav-item dropdown me-4">
-            <a class="nav-link dropdown-toggle" href="/toys" id="dropdownPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Toys</a>
-            <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
-              <li><a href="/toys" class="dropdown-item item-anchor">All</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Stuffed Toys</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Cars</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Dolls</a></li>
-            </ul>
-          </li>
-          <!-- Accessories Dropdown -->
-          <li class="nav-item dropdown me-3">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdownPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accessories</a>
-            <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
-              <li><a href="/accessories" class="dropdown-item item-anchor">All</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Hair</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Glasses</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Keychains</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Headphones</a></li>
-              <li><a href="index.html" class="dropdown-item item-anchor">Phone Cases</a></li>
-            </ul>
-          </li>
-          <!-- Admin Panel -->
-          <li class="nav-item me-4 ">
-            <a class="nav-link" href="/admin/login">Admin Panel</a>
-          </li>
-        </ul>
-
-        <!-- Search Bar -->
-        <form class="d-flex mx-3" role="search" style="max-width: 300px;">
-          <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-        </form>
-
-        <!-- Cart and Wishlist -->
-        <ul class="list-unstyled d-flex my-2 ">
-          <li class="d-none d-lg-block ">
-            <a href="index.html" class="text-uppercase mx-3 text-decoration-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-              Cart <span class="cart-count">(0)</span>
-            </a>
-          </li>
-          <li class="d-lg-none">
-            <a href="#" class="mx-2">
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <use xlink:href="#heart"></use>
-              </svg>
-            </a>
-          </li>
-          <li class="d-lg-none">
-            <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <use xlink:href="#cart"></use>
-              </svg>
-            </a>
-          </li>
-        </ul>
+    <div class="container-fluid">
+      <div class="row justify-content-between align-items-center w-100">
+        <div class="col-auto">
+          <a class="navbar-brand text-white" href="/">
+            <img src="../images/logo.png" style="width: 200px;">
+          </a>
+        </div>
+  
+        <div class="col-auto" >
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+  
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle active" href="/clothes" id="dropdownHome" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clothes</a>
+                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownHome">
+                    <li>
+                      <a href="/clothes" class="dropdown-item item-anchor">All</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Summers'24</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Winters'24</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Autumn'24</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Spring'24</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="/jewellery" id="dropdownShop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jewellery</a>
+                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownShop">
+                    <li>
+                      <a href="/jewellery" class="dropdown-item item-anchor">All</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Earrings</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Necklace</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Rings</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Bracelets</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Pendants</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Silver Range</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="dropdownBlog" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bags</a>
+                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownBlog">
+                    <li>
+                      <a href="/bags" class="dropdown-item item-anchor">All</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Shoulder Bags</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Handbags</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">School Bags</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Wallets</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="/toys" id="dropdownPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Toys</a>
+                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
+                    <li>
+                      <a href="/toys" class="dropdown-item item-anchor">All</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Stuffed Toys</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Cars</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Dolls</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="dropdownPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accessories</a>
+                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
+                    <li>
+                      <a href="/accessories" class="dropdown-item item-anchor">All</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Hair</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Glasses</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Keychains</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Headphones</a>
+                    </li>
+                    <li>
+                      <a href="index.html" class="dropdown-item item-anchor">Phone Cases</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin/login">Admin Panel</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-3 col-lg-auto">
+          <ul class="list-unstyled d-flex m-0">
+            <li class="d-none d-lg-block">
+              <a href="index.html" class="text-uppercase mx-3">Wishlist <span class="wishlist-count">(0)</span></a>
+            </li>
+            <li class="d-none d-lg-block">
+              <a href="index.html" class="text-uppercase mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">Cart <span class="cart-count">(0)</span></a>
+            </li>
+            <li class="d-lg-none">
+              <a href="#" class="mx-2">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <use xlink:href="#heart"></use>
+                </svg>
+              </a>
+            </li>
+            <li class="d-lg-none">
+              <a href="#" class="mx-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                  <use xlink:href="#cart"></use>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
+  
