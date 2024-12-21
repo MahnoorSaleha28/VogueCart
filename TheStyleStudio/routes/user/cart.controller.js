@@ -66,7 +66,22 @@ router.post("/cart/update/:productId", (req, res) => {
     }
   
     res.redirect("/cart");
-  });  
+  }); 
+  
+  // Route to remove a product from the cart
+router.post("/cart/remove/:productId", (req, res) => {
+  const { productId } = req.params;
+
+  if (!req.session.cart) {
+      req.session.cart = [];
+  }
+
+  // Remove the product from the cart
+  req.session.cart = req.session.cart.filter(item => item.productId.toString() !== productId);
+
+  res.redirect("/cart"); // Redirect back to the cart page
+});
+
 // Route for checkout page
 router.get("/checkout", async (req, res) => {
     try {

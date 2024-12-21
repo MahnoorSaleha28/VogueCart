@@ -52,9 +52,16 @@
             <td>
               <%= (product.price * product.quantity).toFixed(2) %> <!-- Subtotal -->
             </td>
+            <td>
+              <!-- Remove button -->
+              <form action="/cart/remove/<%= product._id %>" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+              </form>
+            </td>
           </tr>
         <% }) %>
       </tbody>
+      
     </table>
 
     <div>
