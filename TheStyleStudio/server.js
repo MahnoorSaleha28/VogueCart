@@ -5,7 +5,10 @@ const server = express();
 const Product = require('./models/products.model');
 const Category = require('./models/categories.model'); 
 const Admin = require("./models/admin.model");
+const Order = require("./models/order");
 const session = require("express-session");
+server.use(express.json());
+const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 
 server.use(session({
@@ -21,8 +24,17 @@ var expressLayouts = require("express-ejs-layouts");
 server.use(expressLayouts);
 
 server.use(express.static("public"));
-
+const path = require("path");
+server.use(express.static(path.join(__dirname, "public")));
 server.use(express.urlencoded({ extended: true }));
+
+// Middleware for global cart count
+server.use((req, res, next) => {
+  if (!req.session.cart) req.session.cart = [];
+  res.locals.cartCount = req.session.cart.length;
+  res.locals.user = req.session.user || null; // Make user data available globally
+  next();
+});
 
 const port = 5000;
 
@@ -110,8 +122,7 @@ server.use(adminProductsRouter);
 let adminCategoriesProducts = require("./routes/admin/categories.controller");
 server.use(adminCategoriesProducts);
 
-let orderRoutes = require("./routes/admin/orders.controller");
-server.use(orderRoutes);
+
 
 const clothesRoute = require('./routes/user/user.products.controller');
 server.use(clothesRoute)
@@ -122,6 +133,11 @@ mongoose
   .connect(connectionString)
   .then(() => console.log("Connected to Mongo DB Server: " + connectionString))
   .catch((error) => console.log(error.message));
+
+// Import the cart routes
+const cartController = require("./routes/user/cart.controller");
+// Use the cart routes
+server.use(cartController);
 
 server.listen(port, () => {
     console.log("Server started at localhost:5000");
