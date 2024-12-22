@@ -3,83 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bags</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-    <link
-      rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/vendor.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" type="text/css" href="css/accessories.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    
-  </head>
-    <title>Bags</title>
 </head>
 <body>
-  <nav aria-label="breadcrumb "style="margin-left:110px; margin-top:10px; ">
-    <ol class="breadcrumb ">
+  <nav aria-label="breadcrumb" style="margin-left:110px; margin-top:10px;">
+    <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="/">Home </a>
-            >
-            <a  href="/bags">Bags</a>
+            <a href="/">Home </a> > <a href="/bags">Bags</a>
         </li>
     </ol>
-</nav>
-    <!-- Bag Page Content -->
-  <div class="container mt-5">
+  </nav>
+
+  <!-- Bag Page Content -->
+  <div class="container my-5">
+    <h2 class="mb-4">Bags</h2>
     
-  <h2 class="mb-4">Bags</h2>
-  <!-- Filter and Sort Section -->
-  <div class="d-flex justify-content-between   mb-4">
-    <!-- Filter Dropdown -->
-    <div class="dropdown">
-      <button class="  btn btn-outline-secondary text-black border-secondary-subtle  filter-sort-wrapper dropdown-toggle"style="padding-right:110px;"  type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false" >
-        <i class="icon fa-solid fa-sliders pe-1" ></i> Filter
-      </button>
-      <ul class=" dropdown-menu " aria-labelledby="filterDropdown">
-        <li><a class="dropdown-item" href="#">Category 1</a></li>
-        <li><a class="dropdown-item" href="#">Category 2</a></li>
-        <li><a class="dropdown-item" href="#">Category 3</a></li>
-      </ul>
-    </div>
-
-    <!-- Sort By Dropdown -->
-    <div class="dropdown">
-      <button class="btn btn-outline-secondary text-black border-secondary-subtle custom-dropdown-btn dropdown-toggle"style="padding-right:110px;" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fa-solid fa-sort pe-1"></i> Sort by
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-        <li><a class="dropdown-item" href="#">Price</a></li>
-        <li><a class="dropdown-item" href="#">Rating</a></li>
-        <li><a class="dropdown-item" href="#">Newest</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="row">
-    <% products.forEach((product, index) => { %>
-      <% if (index % 4 === 0 && index !== 0) { %> <!-- Add a new row after every 4 products -->
-        </div>
-        <div class="row">
-      <% } %>
-
-      <div class="col-6 col-md-3 mb-4">
-        <div class="product-card">
-          <img class="prod-img img-fluid" src="<%= product.image %>" alt="<%= product.name %>" />
-          <p><strong><%= product.name %></strong></p>
-          <p>Rs.<%= product.price %></p>
-          <form action="/cart/add" method="POST">
-            <input type="hidden" name="productId" value="<%= product.id %>">
-            <button type="submit" class="btn btn-custom">ADD TO BAG</button>
-        </form>
-        </div>
+    <!-- Filter and Sort Section -->
+    <div class="d-flex justify-content-between mb-4">
+      <!-- Filter Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary text-black border-secondary-subtle filter-sort-wrapper dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="icon fa-solid fa-sliders pe-1"></i> Filter
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+          <li><a class="dropdown-item" href="/clothes">Clothes</a></li>
+          <li><a class="dropdown-item" href="/jewellery">Jewellery</a></li>
+          <li><a class="dropdown-item" href="/bags">Bags</a></li>
+          <li><a class="dropdown-item" href="/toys">Toys</a></li>
+          <li><a class="dropdown-item" href="/accessories">Accessories</a></li>
+        </ul>
       </div>
+      
+      <!-- Sort By Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary text-black border-secondary-subtle custom-dropdown-btn dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-sort pe-1"></i> Sort by
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+          <li><a class="dropdown-item" href="/bags?sort=priceAsc">Price: Low to High</a></li>
+          <li><a class="dropdown-item" href="/bags?sort=priceDesc">Price: High to Low</a></li>
+          <li><a class="dropdown-item" href="/bags?sort=nameAsc">Name: A-Z</a></li>
+        </ul>
+      </div>
+    </div>
 
-    <% }); %>
-  </div>
-</div>
+    
+      <!-- Product Cards -->
+    <div class="row">
+        <% products.forEach((product, index) => { %>
+          <div class="col-6 col-md-3 mb-4">
+            <div class="product-card">
+              <a href="/productDetail/<%= product._id %>">
+                <img class="card-img-top img-fluid" src="<%= product.image %>" alt="<%= product.name %>">
+              </a>
+              <p><strong><%= product.name %></strong></p>
+              <p class="card-text">Rs.<%= product.price %></p>
+              <form action="/cart/add" method="POST">
+                <input type="hidden" name="productId" value="<%= product._id %>">
+                <button type="submit" class="btn btn-custom">ADD TO BAG</button>
+              </form>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

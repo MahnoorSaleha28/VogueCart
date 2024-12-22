@@ -1,0 +1,112 @@
+/* Body and overall layout */
+body {
+    background-color: #f0f8ff;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Center the content */
+.no-results-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Icon Styling */
+.no-results-icon {
+    font-size: 60px; /* Reduced size of search icon */
+    color: #ff6347;
+}
+
+/* Message and description */
+.no-results-message {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-top: 20px;
+    animation: slideIn 1s ease-out;
+}
+
+.no-results-description {
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+    max-width: 600px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Cool paragraph */
+.cool-paragraph {
+    font-size: 16px;
+    font-style: italic;
+    color: #777;
+    margin-top: 20px;
+    line-height: 1.6;
+    max-width: 700px;
+    padding: 0 20px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.cool-paragraph span {
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* Back to home button */
+.back-to-home-btn {
+    margin-top: 30px;
+    font-size: 18px;
+    color: white;
+    background-color: #007bff;
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 8px 15px rgba(0, 123, 255, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.back-to-home-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+    transform: translateY(-5px);
+}
+
+/* Social Media Links */
+.social-media-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.social-link {
+    font-size: 30px;
+    margin: 0 15px;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.social-link:hover {
+    color: #ff6347;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
