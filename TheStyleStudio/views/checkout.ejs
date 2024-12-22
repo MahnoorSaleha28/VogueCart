@@ -45,56 +45,69 @@
         <button type="submit" class="btn btn-primary">Confirm Order</button>
       </form>
     </div>
-    
-    
-    
-    <script>
-        document.getElementById('checkout-form').addEventListener('submit', function(event) {
-          event.preventDefault(); // Prevent the form from submitting normally
-      
-          // Get form field values
-          const name = document.getElementById('name').value;
-          const address = document.getElementById('address').value;
-          const phone = document.getElementById('phone').value;
-          const totalPrice = document.getElementById('total-price').value;
-      
-          // Validate form fields
-          if (!name || !address || !phone || !totalPrice) {
-            alert("Please fill out all required fields.");
-            return;
-          }
-      
-          // Prepare the data to be sent as JSON
-          const orderData = {
-            name: name,
-            address: address,
-            phone: phone,
-            totalPrice: totalPrice
-          };
-      
-          // Send the data as JSON
-          fetch('/checkout', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'  // Specify content type as JSON
-            },
-            body: JSON.stringify(orderData) // Convert the data to JSON
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              alert(data.message); // Success message
-              window.location.href = '/'; // Redirect to homepage
-            } else {
-              alert(data.message); // Error message
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while processing your order. Please try again.');
-          });
-        });
-      </script>
+      <script>
+     document.getElementById('checkout-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the form from submitting normally
+
+  // Get form field values
+  const name = document.getElementById('name').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const totalPrice = document.getElementById('total-price').value;
+
+  // Validate form fields
+  if (!name || !address || !phone || !totalPrice) {
+    alert("Please fill out all required fields.");
+    return;
+  }
+
+  // Validate phone number (should start with 03 and be exactly 11 digits)
+  const phonePattern = /^03\d{9}$/; // Regex for phone numbers starting with 03 and having 11 digits
+  if (!phonePattern.test(phone)) {
+    alert("Phone number must start with '03' and be exactly 11 digits.");
+    return;
+  }
+
+  // Validate address (should include "street" and "city")
+  const addressPattern = /street/i; // Case-insensitive match for "street"
+  const cityPattern = /city/i;     // Case-insensitive match for "city"
+  if (!addressPattern.test(address) || !cityPattern.test(address)) {
+    alert("Address must include 'street' and 'city'.");
+    return;
+  }
+
+  // Prepare the data to be sent as JSON
+  const orderData = {
+    name: name,
+    address: address,
+    phone: phone,
+    totalPrice: totalPrice
+  };
+
+  // Send the data as JSON
+  fetch('/checkout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'  // Specify content type as JSON
+    },
+    body: JSON.stringify(orderData) // Convert the data to JSON
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      alert(data.message); // Success message
+      window.location.href = '/'; // Redirect to homepage
+    } else {
+      alert(data.message); // Error message
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred while processing your order. Please try again.');
+  });
+});
+
+    </script>      
          
 </body>
 </html>
