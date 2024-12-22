@@ -34,11 +34,11 @@
               <% order.products.forEach((product) => { %>
                 <div>
                   <%= product.productId.name %> (Quantity: <%= product.quantity %>) 
-                  - $<%= product.productId.price %>
+                  - Rs. <%= product.productId.price %> 
                 </div>
               <% }) %>
             </td>
-            <td>$<%= order.totalPrice %></td>
+            <td>Rs. <%= order.totalPrice %></td>
             <td><%= new Date(order.createdAt).toLocaleString() %></td>
           </tr>
           <% }) %>
