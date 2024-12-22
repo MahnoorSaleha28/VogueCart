@@ -62,18 +62,18 @@ server.get('/', async (req, res) => {
       res.status(500).send("Server Error");
     }
   });
-  
 
-server.get('/admin', (req, res) => {
+const adminAuth = require("./middlewares/admin-middleware");
+
+server.get('/admin',adminAuth,(req, res) => {
     res.render("admin/dashboard", {
         layout: "adminlayout", 
         pageTitle: "Admin Dashboard"
     });
 });
 
-const adminAuth = require("./middlewares/admin-middleware");
 
-server.get("/admin/dashboard", adminAuth, (req, res) => {
+server.get("/admin/dashboard",(req, res) => {
     res.render("admin/dashboard", {
         layout: "adminlayout",
         pageTitle: "Admin Dashboard",
@@ -138,6 +138,11 @@ mongoose
 const cartController = require("./routes/user/cart.controller");
 // Use the cart routes
 server.use(cartController);
+
+// Import the orders routes
+const orderController = require("./routes/admin/orders.controller");
+// Use the orders routes
+server.use(orderController);
 
 server.listen(port, () => {
     console.log("Server started at localhost:5000");
