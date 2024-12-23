@@ -16,22 +16,47 @@
           <th>#</th>
           <th>Name</th>
           <th>Gmail</th>
-          <th>Password</th>
+          <th>Products</th>
+          <th>Price</th>
+          <th>Date</th>
         </tr>
       </thead>
       <tbody>
-        <% if (users.length > 0) { %>
-          <% users.forEach((user, index) => { %>
-          <tr>
-            <td><%= index + 1 %></td>
-            <td><%= user.name %></td>
-            <td><%= user.email %></td>
-            <td><%= user.password %></td>
-          </tr>
+        <% if (users && users.length > 0) { %>
+          <% users.forEach((user, userIndex) => { %>
+            <% 
+              // Match orders by user name
+              const userOrders = orders.filter(order => order.name === user.name);
+            %>
+            <tr>
+              <td><%= userIndex + 1 %></td>
+              <td><%= user.name || "N/A" %></td>
+              <td><%= user.email || "N/A" %></td>
+              <% if (userOrders.length > 0) { %>
+                <td>
+                  <% userOrders.forEach((order) => { %>
+                    <% order.products.forEach((product) => { %>
+                      <div>
+                        <%= product.productId.name || "Unknown Product" %> 
+                        (Quantity: <%= product.quantity || 0 %>)
+                      </div>
+                    <% }) %>
+                  <% }) %>
+                </td>
+                <td>Rs. <%= userOrders.reduce((total, order) => total + order.totalPrice, 0) %></td>
+                <td>
+                  <% userOrders.forEach((order) => { %>
+                    <div><%= order.createdAt ? new Date(order.createdAt).toLocaleString() : "N/A" %></div>
+                  <% }) %>
+                </td>
+              <% } else { %>
+                <td colspan="3" class="text-center">No orders</td>
+              <% } %>
+            </tr>
           <% }) %>
         <% } else { %>
           <tr>
-            <td colspan="7" class="text-center">No users found.</td>
+            <td colspan="6" class="text-center">No users found.</td>
           </tr>
         <% } %>
       </tbody>
