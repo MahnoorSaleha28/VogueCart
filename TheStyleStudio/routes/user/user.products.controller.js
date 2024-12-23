@@ -59,11 +59,6 @@ router.get('/clothes', async (req, res) => {
   }
 });
 
-
-
-
-
-
 // Jewellery route
 router.get('/jewellery', async (req, res) => {
   try {
