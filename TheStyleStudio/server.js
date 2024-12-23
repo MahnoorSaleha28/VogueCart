@@ -6,6 +6,7 @@ const Product = require('./models/products.model');
 const Category = require('./models/categories.model'); 
 const Admin = require("./models/admin.model");
 const Order = require("./models/order");
+
 const session = require("express-session");
 server.use(express.json());
 const bodyParser = require("body-parser");
@@ -19,6 +20,11 @@ server.use(session({
   saveUninitialized: true,
   cookie: { secure: false } // Set to true if using HTTPS
 }));
+
+const userRouter = require('./routes/user/user.controller');
+
+
+
 
 server.set("view engine", "ejs");
 
@@ -63,7 +69,7 @@ server.get('/', async (req, res) => {
       console.error(error);
       res.status(500).send("Server Error");
     }
-  });
+});
 
 const adminAuth = require("./middlewares/admin-middleware");
 
@@ -75,15 +81,24 @@ server.get('/admin',adminAuth,(req, res) => {
 });
 
 
-server.get("/admin/dashboard",(req, res) => {
+server.get("/admin/dashboard",adminAuth,  (req, res) => {
     res.render("admin/dashboard", {
         layout: "adminlayout",
         pageTitle: "Admin Dashboard",
     });
 });
 
+//Admin login
 server.get("/admin/login", (req, res) => {
   res.render("admin/login", {
+    layout: false, 
+    pageTitle: "Admin Login",
+  });
+});
+
+//user login
+server.get("/login", (req, res) => {
+  res.render("login", {
     layout: false, 
     pageTitle: "Admin Login",
   });
@@ -124,6 +139,11 @@ server.use(adminProductsRouter);
 let adminCategoriesProducts = require("./routes/admin/categories.controller");
 server.use(adminCategoriesProducts);
 
+server.use(userRouter);
+
+
+
+
 const clothesRoute = require('./routes/user/user.products.controller');
 server.use(clothesRoute)
 
@@ -143,6 +163,11 @@ server.use(cartController);
 const orderController = require("./routes/admin/orders.controller");
 // Use the orders routes
 server.use(orderController);
+
+// Import the user routes
+const userController = require("./routes/admin/user.controller");
+// Use the user routes
+server.use(userController);
 
 server.listen(port, () => {
     console.log("Server started at localhost:5000");
