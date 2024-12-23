@@ -115,11 +115,6 @@ router.get('/jewellery', async (req, res) => {
   }
 });
 
-
-
-
-
-
 // Bags route
 router.get('/bags', async (req, res) => {
   try {
@@ -233,13 +228,6 @@ router.get('/accessories', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
 // Toys route
 router.get('/toys', async (req, res) => {
   try {
@@ -351,43 +339,21 @@ router.get('/search', async (req, res) => {
       });
     }
 
-<<<<<<< Updated upstream
-    // First, try to find an exact match for the product name
-    let product = await Product.findOne({ name: new RegExp(`^${query}$`, 'i') });
-
+    // Search for an exact match of the product name (case-insensitive)
+    const product = await Product.findOne({ name: { $regex: `^${query}$`, $options: 'i' } }).populate('category');
     if (product) {
-      // If an exact match is found, render the product page
-      return res.render('productDetail', {
-        layout: 'layout',
-        product,
-      });
+      return res.redirect(`/productDetail/${product._id}`);
     }
 
-    // If no exact match for the product, split the search term into words and create a regex
-    const searchWords = query.split(/\s+/).map(word => `\\b${word}\\b`).join('|'); // Create a regex that matches any word
-    const productRegex = new RegExp(searchWords, 'i'); // Case-insensitive regex to match any of the words
+    // If no matches are found
+    return res.render('noResult', {
+      layout: 'layout',
+      message: 'No category or product found matching your search.',
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error performing search.');
+  }
+});
 
-    // Search for products where any word in the name matches the search term
-=======
-    // Search for products where any word in the name matches the search term
-    const productRegex = new RegExp(`\\b${query}\\b`, 'i'); // Match any word that contains the search term (case-insensitive)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
 module.exports = router;
