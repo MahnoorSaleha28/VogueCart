@@ -10,16 +10,16 @@
 </head>
 
 <body>
-   
-        <!-- Display error message -->
-        <% if (errorMessage) { %>
-        <div class="message error-message"><%= errorMessage %></div>
-        <% } %>
+    <!-- Display error message -->
+    <% if (errorMessage) { %>
+    <div class="message error-message"><%= errorMessage %></div>
+    <% } %>
 
-        <!-- Display success message -->
-        <% if (successMessage) { %>
-        <div class="message success-message"><%= successMessage %></div>
-        <% } %>
+    <!-- Display success message -->
+    <% if (successMessage) { %>
+    <div class="message success-message"><%= successMessage %></div>
+    <% } %>
+
     <div class="container" id="container">
         <!-- Sign-In Form -->
         <div class="form-container sign-in" id="sign-in-form">
@@ -33,9 +33,8 @@
                 <a href="/logout" class="btn">Logout</a>
             </form>
         </div>
-        
         <!-- Sign-Up Form -->
-        <div class="form-container sign-up" id="sign-up-form" style="display: none;">
+        <div class="form-container sign-up" id="sign-up-form">
             <form action="/signup" method="POST">
                 <h1>Sign Up</h1>
                 <input type="text" name="name" placeholder="Full Name" required>
@@ -45,63 +44,37 @@
             </form>
         </div>
 
-        <!-- Forgot Password Form -->
-        <div class="form-container forgot-password" id="forgot-password-form" style="display: none;">
-            <form action="/forgot-password" method="POST">
-                <h1>Forgot Password</h1>
-                <p>Enter your email address to reset your password.</p>
-                <input type="email" name="email" placeholder="Enter your email" required>
-                <button type="submit">Reset Password</button>
-                <a href="#" id="back-to-login">Back to Login</a>
-            </form>
-        </div>
-
         <div class="toggle-container">
             <div class="toggle">
                 <div class="toggle-panel toggle-left">
                     <h1>Welcome back!</h1>
                     <p>Enter your personal details to use all of site features</p>
-                    <button  id="login">Sign In</button>
+                    <button class="hidden" id="login">Sign In</button>
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Hello, friend!</h1>
                     <p>Register with your personal details to use all of site features</p>
-                    <button class="sign-up" id="register">Sign Up</button>
+                    <button class="sign-up hidden" id="register">Sign Up</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const forgotPasswordLink = document.getElementById('forgot-password-link');
-        const backToLoginLink = document.getElementById('back-to-login');
+        // JavaScript to toggle the forms
+        const container = document.getElementById('container');
         const signInForm = document.getElementById('sign-in-form');
         const signUpForm = document.getElementById('sign-up-form');
-        const forgotPasswordForm = document.getElementById('forgot-password-form');
-
-        // Show forgot password form
-        forgotPasswordLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            signInForm.style.display = 'none';
-            forgotPasswordForm.style.display = 'block';
-        });
-
-        // Go back to login form from forgot password form
-        backToLoginLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            forgotPasswordForm.style.display = 'none';
-            signInForm.style.display = 'block';
-        });
 
         // Toggle between sign-in and sign-up
-        document.getElementById('register').addEventListener('click', () => {
-            signInForm.style.display = 'none';
-            signUpForm.style.display = 'block';
+        document.getElementById('register').addEventListener('click', (e) => {
+            e.preventDefault();
+            container.classList.add("active");  // Add the 'active' class to slide in the sign-up form
         });
 
-        document.getElementById('login').addEventListener('click', () => {
-            signUpForm.style.display = 'none';
-            signInForm.style.display = 'block';
+        document.getElementById('login').addEventListener('click', (e) => {
+            e.preventDefault();
+            container.classList.remove("active");  // Remove the 'active' class to slide in the sign-in form
         });
     </script>
 </body>
