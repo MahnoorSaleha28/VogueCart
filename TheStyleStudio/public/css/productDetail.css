@@ -57,33 +57,27 @@ body {
     padding-left: 30px;
 }
 
-/* Rainbow Gradient for Product Name */
+/* Black color for Product Name */
 .product-details h1 {
-    background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-    -webkit-background-clip: text;
-    color: transparent;
+    color: black;
     font-size: 3rem;
     font-weight: bold;
     text-align: left;
     margin-bottom: 20px;
 }
 
-/* Rainbow Gradient for "Description:" heading */
+/* Black color for "Description:" heading */
 .product-details h2:nth-of-type(1) {
-    background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-    -webkit-background-clip: text;
-    color: transparent;
+    color: black;
     font-size: 1.5rem;
     font-weight: bold;
     text-align: left;
     margin-top: 20px;
 }
 
-/* Rainbow Gradient for "Price:" heading */
+/* Black color for "Price:" heading */
 .product-details h2:nth-of-type(2) {
-    background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-    -webkit-background-clip: text;
-    color: transparent;
+    color: black;
     font-size: 1.5rem;
     font-weight: bold;
     text-align: left;
@@ -97,11 +91,9 @@ p {
     line-height: 1.6;
 }
 
-/* Rainbow Gradient for Price */
+/* Black color for Price */
 .price {
-    background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-    -webkit-background-clip: text;
-    color: transparent;
+    color: black;
     font-size: 1.8rem;
     font-weight: bold;
     margin-top: 10px;
@@ -198,9 +190,7 @@ form button:hover {
 .product-details h1 {
     font-size: 3rem;
     font-weight: bold;
-    color: transparent;
-    background: linear-gradient(45deg, #ff0000, #ff7f00, #ff7f00, #ff0000, #0000ff, #4b0082, #9400d3);
-    -webkit-background-clip: text;
+    color: black;
     margin-bottom: 10px;
 }
 
@@ -208,16 +198,14 @@ form button:hover {
     font-size: 1.6rem;
     font-weight: 600;
     color: black;
-    /* margin-bottom: 20px; */
     margin-bottom: 10px;
 }
-
 
 .product-details p {
     font-size: 1.2rem;
     color: black;
-    margin-top:10px;
-     text-align: justify;
+    margin-top: 10px;
+    text-align: justify;
 }
 
 .product-details .price {

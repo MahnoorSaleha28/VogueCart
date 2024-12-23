@@ -10,6 +10,8 @@ const session = require("express-session");
 server.use(express.json());
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 server.use(session({
   secret: 'yourSecretKey',  // Replace with your own secret key
@@ -121,8 +123,6 @@ server.use(adminProductsRouter);
 //adminProductsRouter to handle all the category-related routes
 let adminCategoriesProducts = require("./routes/admin/categories.controller");
 server.use(adminCategoriesProducts);
-
-
 
 const clothesRoute = require('./routes/user/user.products.controller');
 server.use(clothesRoute)
