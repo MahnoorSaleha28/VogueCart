@@ -75,10 +75,7 @@ body{
 
 }
 
- /* button#register {
-    background-color: red; 
-    border: 2px solid black;
-}  */
+
 
 
 .container button.hidden{
@@ -258,4 +255,23 @@ body{
     font-size: 28px;
     font-weight: bold;
 }
+
+.message {
+    margin: 20px 0;
+    margin-left: 0 !important;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+}
+
 

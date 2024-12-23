@@ -44,6 +44,12 @@ server.use((req, res, next) => {
   next();
 });
 
+
+const flashMiddleware = require('./middlewares/flashmessages');
+
+// Use flashMiddleware for all routes
+server.use(flashMiddleware);
+
 const port = 5000;
 
 server.get('/', async (req, res) => {
@@ -168,6 +174,8 @@ server.use(orderController);
 const userController = require("./routes/admin/user.controller");
 // Use the user routes
 server.use(userController);
+
+
 
 server.listen(port, () => {
     console.log("Server started at localhost:5000");

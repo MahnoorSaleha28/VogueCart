@@ -10,6 +10,16 @@
 </head>
 
 <body>
+   
+        <!-- Display error message -->
+        <% if (errorMessage) { %>
+        <div class="message error-message"><%= errorMessage %></div>
+        <% } %>
+
+        <!-- Display success message -->
+        <% if (successMessage) { %>
+        <div class="message success-message"><%= successMessage %></div>
+        <% } %>
     <div class="container" id="container">
         <!-- Sign-In Form -->
         <div class="form-container sign-in" id="sign-in-form">
@@ -58,12 +68,12 @@
                 <div class="toggle-panel toggle-left">
                     <h1>Welcome back!</h1>
                     <p>Enter your personal details to use all of site features</p>
-                    <button class="hidden" id="login">Sign In</button>
+                    <button  id="login">Sign In</button>
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Hello, friend!</h1>
                     <p>Register with your personal details to use all of site features</p>
-                    <button class="sign-up hidden" id="register">Sign Up</button>
+                    <button class="sign-up" id="register">Sign Up</button>
                 </div>
             </div>
         </div>
