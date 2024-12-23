@@ -233,6 +233,13 @@ router.get('/accessories', async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
 // Toys route
 router.get('/toys', async (req, res) => {
   try {
@@ -258,7 +265,7 @@ router.get('/toys', async (req, res) => {
       } else {
         return res.render('noResult', {
           layout: 'layout',
-          message:`Sub-category "${category}" not found.`,
+          message: `Sub-category "${category}" not found.`,
         });
       }
     }
@@ -288,7 +295,7 @@ router.get('/toys', async (req, res) => {
     console.error('Error fetching products:', error.message);
     res.status(500).send('Error fetching products');
   }
-}); 
+});
 
 
 router.get('/productDetail/:id', async (req, res) => {
@@ -344,6 +351,7 @@ router.get('/search', async (req, res) => {
       });
     }
 
+<<<<<<< Updated upstream
     // First, try to find an exact match for the product name
     let product = await Product.findOne({ name: new RegExp(`^${query}$`, 'i') });
 
@@ -360,25 +368,26 @@ router.get('/search', async (req, res) => {
     const productRegex = new RegExp(searchWords, 'i'); // Case-insensitive regex to match any of the words
 
     // Search for products where any word in the name matches the search term
-    const products = await Product.find({ name: { $regex: productRegex } }).populate('category');
+=======
+    // Search for products where any word in the name matches the search term
+    const productRegex = new RegExp(`\\b${query}\\b`, 'i'); // Match any word that contains the search term (case-insensitive)
 
-    if (products.length > 0) {
-      // Render the products that match
-      return res.render('searchResults', {
-        layout: 'layout',
-        products,
-        message: `Found ${products.length} product(s) matching your search.`,
-      });
-    }
 
-    // If no matches are found
-    return res.render('noResult', {
-      layout: 'layout',
-      message: 'No category or product found matching your search.',
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error performing search.');
-  }
-});
+
+
+
+
+
+
+
+
+
+
+
+
+<<<<<<< Updated upstream
+
+
+=======
+>>>>>>> Stashed changes
 module.exports = router;

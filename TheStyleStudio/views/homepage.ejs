@@ -110,9 +110,11 @@
                 <div class="col-6 col-md-3 mb-4">
                   <div class="product-card">
                     <div class="product-image-container">
-                      <a href="/productDetail/<%= product._id %>">
-                        <img class="card-img-top img-fluid" src="<%= product.image %>" alt="<%= product.name %>">
-                      </a>
+                      <img
+                        class="prod-img img-fluid"
+                        src="<%= product.image %>"
+                        alt="<%= product.name %>"
+                      />
                     </div>
                     <div class="product-info">
                       <h5 class="product-name"><%= product.name %></h5>

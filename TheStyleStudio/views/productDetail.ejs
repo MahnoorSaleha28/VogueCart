@@ -5,28 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
-    <link rel="stylesheet" href="/css/productDetail.css"> <!-- External CSS File -->
+    <link rel="stylesheet" href="/css/productDetail.css">
     <title>Product Details</title>
+    
 </head>
 <body>
+    
+
     <!-- Product Detail Page -->
     <div class="container product-page">
         <!-- Close Button -->
         <button class="close-btn" onclick="window.history.back();">&times;</button>
 
-        <div class="row">
-            <!-- Product Image -->
-            <div class="col-md-5 product-image">
-                <img src="<%= product.image %>" alt="<%= product.name %>" />
-            </div>
+        <!-- Product Image -->
+        <div class="product-image">
+            <img src="<%= product.image %>" alt="<%= product.name %>" />
+        </div>
 
-<<<<<<< HEAD
-            <!-- Product Details -->
-            <div class="col-md-7 product-details">
-                <h1><%= product.name %></h1>
-                <h2>Description:</h2>
-                <p><%= product.description %></p>
-=======
         <!-- Product Details -->
         <div class="product-details">
             <h1 class="fs-2"><%= product.name %></h1>
@@ -34,19 +29,16 @@
             <!-- Product Description Section -->
             <h3 class="fs-4 fw-bold">Description:</h3>
             <p class="fs-6"><%= product.description %></</p>
-<<<<<<< Updated upstream
-=======
->>>>>>> fb70e65017df734defce721b26cf30fdde64533b
->>>>>>> Stashed changes
 
-                <h2>Price:</h2>
-                <div class="price">Rs. <%= product.price %></div>
+            <!-- Product Price Section -->
+            <h2 class="pr">Price:</h2>
+            <div class="price">Rs.<%= product.price %></div>
 
-                <form action="/cart/add" method="POST">
-                    <input type="hidden" name="productId" value="<%= product.id %>">
-                    <button type="submit">Add to Bag</button>
-                </form>
-            </div>
+            <!-- Add to Bag Button -->
+            <form action="/cart/add" method="POST">
+                <input type="hidden" name="productId" value="<%= product.id %>">
+                <button type="submit">Add to Bag</button>
+            </form>
         </div>
     </div>
 
