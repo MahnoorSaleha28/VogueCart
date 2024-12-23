@@ -244,6 +244,7 @@ router.get('/accessories', async (req, res) => {
 
 
 
+
 // Toys route
 router.get('/toys', async (req, res) => {
   try {
@@ -269,7 +270,7 @@ router.get('/toys', async (req, res) => {
       } else {
         return res.render('noResult', {
           layout: 'layout',
-          message: `Sub-category "${category}" not found.`,
+          message:`Sub-category "${category}" not found.`,
         });
       }
     }
@@ -299,7 +300,7 @@ router.get('/toys', async (req, res) => {
     console.error('Error fetching products:', error.message);
     res.status(500).send('Error fetching products');
   }
-});
+}); 
 
 
 router.get('/productDetail/:id', async (req, res) => {
@@ -355,10 +356,36 @@ router.get('/search', async (req, res) => {
       });
     }
 
-    // Search for an exact match of the product name (case-insensitive)
-    const product = await Product.findOne({ name: { $regex: `^${query}$`, $options: 'i' } }).populate('category');
+<<<<<<< Updated upstream
+    // First, try to find an exact match for the product name
+    let product = await Product.findOne({ name: new RegExp(`^${query}$`, 'i') });
+
     if (product) {
-      return res.redirect(`/productDetail/${product._id}`);
+      // If an exact match is found, render the product page
+      return res.render('productDetail', {
+        layout: 'layout',
+        product,
+      });
+    }
+
+    // If no exact match for the product, split the search term into words and create a regex
+    const searchWords = query.split(/\s+/).map(word => `\\b${word}\\b`).join('|'); // Create a regex that matches any word
+    const productRegex = new RegExp(searchWords, 'i'); // Case-insensitive regex to match any of the words
+
+    // Search for products where any word in the name matches the search term
+=======
+    // Search for products where any word in the name matches the search term
+    const productRegex = new RegExp(`\\b${query}\\b`, 'i'); // Match any word that contains the search term (case-insensitive)
+>>>>>>> Stashed changes
+    const products = await Product.find({ name: { $regex: productRegex } }).populate('category');
+
+    if (products.length > 0) {
+      // Render the products that match
+      return res.render('searchResults', {
+        layout: 'layout',
+        products,
+        message: `Found ${products.length} product(s) matching your search.`,
+      });
     }
 
     // If no matches are found
@@ -383,4 +410,10 @@ router.get('/search', async (req, res) => {
 
 
 
+
+<<<<<<< Updated upstream
+
+
+=======
+>>>>>>> Stashed changes
 module.exports = router;

@@ -1,6 +1,6 @@
 /* Overall Body and Background */
 body {
-    background-color: #f0f2f5;
+    background-color: #f8f9fa;
     font-family: 'Arial', sans-serif;
 }
 
@@ -12,60 +12,63 @@ body {
     font-size: 1.5rem;
     color: #333;
     background: none;
+    border: none;
+    cursor: pointer;
 }
 
 /* Container Styling for Product Page */
 .container.product-page {
     margin-top: 50px;
     padding: 30px;
-    background-color: white;
+    background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     position: relative;
+    max-width: 900px;
+    margin: 50px auto;
 }
 
-/* Close button styling */
-.close-btn {
-    font-size: 30px;
-    background: none;
-    border: none;
-    color: #333;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
-/* Product image styling */
+/* Product Image Styling */
 .product-image img {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
     height: auto;
     margin-bottom: 20px;
     border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Flexbox for the product details and image */
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-/* Product details styling */
+/* Product Details Styling */
 .product-details {
-    padding-left: 30px;
+    padding-left: 20px;
 }
 
+<<<<<<< Updated upstream
 /* Black color for Product Name */
 .product-details h1 {
+=======
+<<<<<<< HEAD
+.product-details h1 {
+    color: #000;
+    font-size: 2.5rem;
+=======
+/* Black color for Product Name */
+.product-details h1 {
+>>>>>>> Stashed changes
     color: black;
     font-size: 3rem;
+>>>>>>> fb70e65017df734defce721b26cf30fdde64533b
     font-weight: bold;
-    text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+.product-details h2 {
+    color: #000;
+=======
+>>>>>>> Stashed changes
 /* Black color for "Description:" heading */
 .product-details h2:nth-of-type(1) {
     color: black;
@@ -86,55 +89,85 @@ body {
 
 /* Description and price section */
 p {
+>>>>>>> fb70e65017df734defce721b26cf30fdde64533b
     font-size: 1.2rem;
-    color: #555;
-    line-height: 1.6;
+    font-weight: 600;
+    margin-top: 15px;
 }
 
+<<<<<<< Updated upstream
 /* Black color for Price */
 .price {
+=======
+.product-details p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-top: 10px;
+    text-align: justify;
+}
+
+<<<<<<< HEAD
+/* Price Section */
+.price {
+    color: #555;
+    font-size: 1rem;
+    /* font-weight: bold; */
+=======
+/* Black color for Price */
+.price {
+>>>>>>> Stashed changes
     color: black;
     font-size: 1.8rem;
     font-weight: bold;
+>>>>>>> fb70e65017df734defce721b26cf30fdde64533b
     margin-top: 10px;
 }
 
-/* Add to Bag button styling */
+/* Add to Bag Button */
 form button {
-    font-size: 1.2rem;
-    background-color: #007bff;
+    font-size: 1rem;
+    background-color: black;
     color: white;
-    padding: 12px 25px;
-    border-radius: 50px;
+    padding: 10px 20px;
+    border-radius: 30px;
     border: none;
     cursor: pointer;
     margin-top: 20px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 form button:hover {
-    background-color: #0056b3;
+    background-color: #555;
 }
 
-/* Responsive design */
+/* Responsive Design */
 @media (max-width: 768px) {
+    .container.product-page {
+        padding: 20px;
+    }
+
+    .product-details {
+        padding-left: 0;
+        text-align: center;
+    }
+
     .product-image img {
         max-width: 100%;
     }
 
     .product-details h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
 
     .product-details h2 {
-        font-size: 1.3rem;
-    }
-
-    p {
         font-size: 1rem;
     }
 
     .price {
+<<<<<<< HEAD
+        font-size: 1rem;
+=======
         font-size: 1.5rem;
     }
 }
@@ -243,5 +276,6 @@ form button:hover {
 
     .product-details {
         text-align: center;
+>>>>>>> fb70e65017df734defce721b26cf30fdde64533b
     }
 }
