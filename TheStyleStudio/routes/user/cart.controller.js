@@ -84,27 +84,33 @@ router.post("/cart/remove/:productId", (req, res) => {
 
 // Route for checkout page
 router.get("/checkout", async (req, res) => {
-    try {
+  try {
       const cartProductIds = req.session.cart || [];
       const productIds = cartProductIds.map(item => item.productId);
       const productsInCart = await Product.find({ _id: { $in: productIds } });
-  
+
       // Calculate total price and attach quantity
       const totalPrice = productsInCart.reduce((total, product) => {
-        const cartItem = cartProductIds.find(item => item.productId.toString() === product._id.toString());
-        return total + product.price * cartItem.quantity;
+          const cartItem = cartProductIds.find(item => item.productId.toString() === product._id.toString());
+          return total + product.price * cartItem.quantity;
       }, 0);
-  
+
+      // Apply 5% discount
+      const discount = 0.05; // 5% discount
+      const discountedPrice = totalPrice - totalPrice * discount;
+
       res.render("checkout", {
-        products: productsInCart,
-        totalPrice,
-        layout: "mainLayout",
+          products: productsInCart,
+          totalPrice: totalPrice.toFixed(2), // Original price (optional formatting)
+          discountedPrice: discountedPrice.toFixed(2), // Price after discount
+          layout: "mainLayout",
       });
-    } catch (err) {
+  } catch (err) {
       console.error("Error fetching cart products:", err);
       res.status(500).send("Error fetching cart products.");
-    }
-  });
+  }
+});
+
 
 // Route to handle checkout submission
 router.post("/checkout", async (req, res) => {
