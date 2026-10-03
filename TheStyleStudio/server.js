@@ -1,9 +1,10 @@
-const express = require('express');
+const express = require("express");
 const mongoose = require("mongoose");
-const expressEjsLayouts = require('express-ejs-layouts');
+require("dotenv").config();
+const expressEjsLayouts = require("express-ejs-layouts");
 const server = express();
-const Product = require('./models/products.model');
-const Category = require('./models/categories.model'); 
+const Product = require("./models/products.model");
+const Category = require("./models/categories.model");
 const Admin = require("./models/admin.model");
 const Order = require("./models/order");
 
@@ -14,17 +15,16 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 
-server.use(session({
-  secret: 'yourSecretKey',  // Replace with your own secret key
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using HTTPS
-}));
+server.use(
+  session({
+    secret: "yourSecretKey", // Replace with your own secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // Set to true if using HTTPS
+  }),
+);
 
-const userRouter = require('./routes/user/user.controller');
-
-
-
+const userRouter = require("./routes/user/user.controller");
 
 server.set("view engine", "ejs");
 
@@ -44,60 +44,60 @@ server.use((req, res, next) => {
   next();
 });
 
-
-const flashMiddleware = require('./middlewares/flashmessages');
+const flashMiddleware = require("./middlewares/flashmessages");
 
 // Use flashMiddleware for all routes
 server.use(flashMiddleware);
 
 const port = 5000;
 
-server.get('/', async (req, res) => {
-    try {
-      // Fetch all categories from the database
-      const categories = await Category.find();
-  
-      // Fetch products for each category
-      const categoryProducts = await Promise.all(
-        categories.map(async (category) => {
-          // Fetch a limited number of products for each category (e.g., 4 products)
-          const products = await Product.find({ category: category._id }).limit(4);
-          return {
-            category: category.name,
-            products: products,
-          };
-        })
-      );
-  
-      // Render the homepage with category and product data
-      res.render('homepage.ejs', { categoryProducts });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Server Error");
-    }
+server.get("/", async (req, res) => {
+  try {
+    // Fetch all categories from the database
+    const categories = await Category.find();
+
+    // Fetch products for each category
+    const categoryProducts = await Promise.all(
+      categories.map(async (category) => {
+        // Fetch a limited number of products for each category (e.g., 4 products)
+        const products = await Product.find({ category: category._id }).limit(
+          4,
+        );
+        return {
+          category: category.name,
+          products: products,
+        };
+      }),
+    );
+
+    // Render the homepage with category and product data
+    res.render("homepage.ejs", { categoryProducts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
 });
 
 const adminAuth = require("./middlewares/admin-middleware");
 
-server.get('/admin',adminAuth,(req, res) => {
-    res.render("admin/dashboard", {
-        layout: "adminlayout", 
-        pageTitle: "Admin Dashboard"
-    });
+server.get("/admin", adminAuth, (req, res) => {
+  res.render("admin/dashboard", {
+    layout: "adminlayout",
+    pageTitle: "Admin Dashboard",
+  });
 });
 
-
-server.get("/admin/dashboard",adminAuth,  (req, res) => {
-    res.render("admin/dashboard", {
-        layout: "adminlayout",
-        pageTitle: "Admin Dashboard",
-    });
+server.get("/admin/dashboard", adminAuth, (req, res) => {
+  res.render("admin/dashboard", {
+    layout: "adminlayout",
+    pageTitle: "Admin Dashboard",
+  });
 });
 
 //Admin login
 server.get("/admin/login", (req, res) => {
   res.render("admin/login", {
-    layout: false, 
+    layout: false,
     pageTitle: "Admin Login",
   });
 });
@@ -105,7 +105,7 @@ server.get("/admin/login", (req, res) => {
 //user login
 server.get("/login", (req, res) => {
   res.render("login", {
-    layout: false, 
+    layout: false,
     pageTitle: "Admin Login",
   });
 });
@@ -130,7 +130,6 @@ server.post("/admin/login", async (req, res) => {
     // If password is correct, store admin in session
     req.session.admin = admin;
     res.redirect("/admin/dashboard");
-
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
@@ -147,13 +146,10 @@ server.use(adminCategoriesProducts);
 
 server.use(userRouter);
 
+const clothesRoute = require("./routes/user/user.products.controller");
+server.use(clothesRoute);
 
-
-
-const clothesRoute = require('./routes/user/user.products.controller');
-server.use(clothesRoute)
-
-const connectionString = "REMOVED_MONGODB_CREDENTIAL";
+const connectionString = process.env.MONGODB_URI;
 
 mongoose
   .connect(connectionString)
@@ -175,8 +171,6 @@ const userController = require("./routes/admin/user.controller");
 // Use the user routes
 server.use(userController);
 
-
-
 server.listen(port, () => {
-    console.log("Server started at localhost:5000");
+  console.log("Server started at localhost:5000");
 });
