@@ -178,3 +178,17 @@ body {
 
 
 
+
+/* Admin login error / logged-out messages */
+.login-message {
+    font-size: 13px;
+    margin: 10px 0 2px;
+}
+
+.login-message.error {
+    color: #a61b1b;
+}
+
+.login-message.success {
+    color: #1e6b34;
+}

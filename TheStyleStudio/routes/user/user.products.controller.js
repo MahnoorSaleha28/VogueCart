@@ -290,7 +290,7 @@ router.get('/productDetail/:id', async (req, res) => {
   try {
     const productId = req.params.id;
 
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).populate("category");
 
     if (!product) {
       return res.status(404).send('Product not found');
@@ -306,7 +306,7 @@ router.get('/productDetail/:id', async (req, res) => {
 
 router.get('/search', async (req, res) => {
   try {
-    const query = req.query.search;
+    const query = (req.query.search || '').trim();
 
     if (!query) {
       return res.render('noResult', {
@@ -315,8 +315,12 @@ router.get('/search', async (req, res) => {
       });
     }
 
+    // Escape regex characters so input like "(" or "[" is matched literally
+    const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedQuery = escapeRegex(query);
+
     // Handle singular/plural category name match
-    const categoryRegex = new RegExp(`^${query}$`, 'i'); // Case-insensitive exact match
+    const categoryRegex = new RegExp(`^${escapedQuery}$`, 'i'); // Case-insensitive exact match
 
     // First, check if there's an exact match for the category name
     let category = await Category.findOne({ name: categoryRegex });
@@ -324,7 +328,7 @@ router.get('/search', async (req, res) => {
     // If no match found, try matching singular form for plural categories
     if (!category) {
       const pluralQuery = query.endsWith('s') ? query.slice(0, -1) : query + 's'; // Convert singular to plural or vice versa
-      category = await Category.findOne({ name: new RegExp(`^${pluralQuery}$`, 'i') });
+      category = await Category.findOne({ name: new RegExp(`^${escapeRegex(pluralQuery)}$`, 'i') });
     }
 
     if (category) {
@@ -340,9 +344,24 @@ router.get('/search', async (req, res) => {
     }
 
     // Search for an exact match of the product name (case-insensitive)
-    const product = await Product.findOne({ name: { $regex: `^${query}$`, $options: 'i' } }).populate('category');
+    const product = await Product.findOne({ name: { $regex: `^${escapedQuery}$`, $options: 'i' } }).populate('category');
     if (product) {
       return res.redirect(`/productDetail/${product._id}`);
+    }
+
+    // Otherwise look for products whose name contains the search term
+    const products = await Product.find({ name: { $regex: escapedQuery, $options: 'i' } })
+      .collation({ locale: 'en', strength: 1 })
+      .sort({ name: 1 });
+    if (products.length === 1) {
+      return res.redirect(`/productDetail/${products[0]._id}`);
+    }
+    if (products.length > 1) {
+      return res.render('searchResults', {
+        layout: 'layout',
+        query,
+        products,
+      });
     }
 
     // If no matches are found

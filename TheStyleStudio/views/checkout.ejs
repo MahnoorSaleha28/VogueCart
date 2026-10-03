@@ -1,111 +1,374 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Assignment1.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>The Style Studio</title>
-</head>
-<body>
-  <nav aria-label="breadcrumb "style="margin-left:0px; margin-top:10px; ">
-    <ol class="breadcrumb ">
-        <li class="breadcrumb-item">
-            <a href="/">Home </a>
-            >
-            <a  href="/checkout">Checkout</a>
-        </li>
+<title>Checkout | The Style Studio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/shop.css">
+
+<div class="shop-page">
+  <nav aria-label="breadcrumb" class="mt-2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/cart">Bag</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Checkout</li>
     </ol>
-</nav>
-    <div class="container mt-4">
-      <h2>Checkout</h2>
-    
-      <form id="checkout-form">
-        <div class="mb-3">
-          <label for="name" class="form-label">Full Name</label>
-          <input type="text" class="form-control" id="name" name="name" required>
+  </nav>
+
+  <h2 class="shop-title">Checkout</h2>
+  <p class="shop-subtitle">Enter your delivery details and choose how you'd like to pay.</p>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <form id="checkout-form" novalidate>
+        <!-- Delivery details -->
+        <div class="shop-card mb-4">
+          <h3 class="shop-card-title"><span class="step-number">1</span>Delivery Details</h3>
+
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="name" autocomplete="name" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="phone" autocomplete="tel" placeholder="03001234567" required>
+            <div class="form-text">e.g. 03001234567 or +923001234567</div>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label for="street" class="form-label">Street Address</label>
+              <input type="text" class="form-control" id="street" autocomplete="street-address" placeholder="House 12, Block C, Model Town" required>
+            </div>
+            <div class="col-md-4">
+              <label for="city" class="form-label">City</label>
+              <input type="text" class="form-control" id="city" autocomplete="address-level2" list="city-list" placeholder="Lahore" required>
+              <datalist id="city-list">
+                <option value="Lahore"></option>
+                <option value="Karachi"></option>
+                <option value="Islamabad"></option>
+                <option value="Rawalpindi"></option>
+                <option value="Faisalabad"></option>
+                <option value="Multan"></option>
+                <option value="Peshawar"></option>
+                <option value="Quetta"></option>
+                <option value="Sialkot"></option>
+                <option value="Gujranwala"></option>
+                <option value="Hyderabad"></option>
+              </datalist>
+            </div>
+          </div>
         </div>
-        
-        <div class="mb-3">
-          <label for="address" class="form-label">Address</label>
-          <input type="text" class="form-control" id="address" name="address" required>
+
+        <!-- Payment -->
+        <div class="shop-card">
+          <h3 class="shop-card-title"><span class="step-number">2</span>Payment</h3>
+
+          <div class="demo-note">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>This is a demo store, so no real payment is taken. For a card, use <strong>4242 4242 4242 4242</strong> with any future expiry and any 3-digit CVC. <strong>4000 0000 0000 0002</strong> shows a declined card.</span>
+          </div>
+
+          <div class="payment-options" role="radiogroup" aria-label="Payment method">
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="cod" checked>
+              <i class="fa-solid fa-money-bill-wave"></i>
+              <span>
+                <strong>Cash on Delivery</strong>
+                <small>Pay when your order arrives</small>
+              </span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="card">
+              <i class="fa-solid fa-credit-card"></i>
+              <span>
+                <strong>Credit / Debit Card</strong>
+                <small>Visa, Mastercard, American Express</small>
+              </span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="wallet">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+              <span>
+                <strong>Mobile Wallet</strong>
+                <small>JazzCash or Easypaisa</small>
+              </span>
+            </label>
+          </div>
+
+          <!-- Card details: never sent to the server, only the brand and last 4 digits are -->
+          <div class="payment-panel" id="panel-card" hidden>
+            <div class="mb-3">
+              <label for="card-number" class="form-label">Card Number</label>
+              <div class="input-with-icon">
+                <input type="text" class="form-control" id="card-number" inputmode="numeric" autocomplete="off" placeholder="1234 5678 9012 3456" maxlength="23">
+                <i class="fa-regular fa-credit-card" id="card-brand-icon"></i>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="card-name" class="form-label">Name on Card</label>
+              <input type="text" class="form-control" id="card-name" autocomplete="off">
+            </div>
+            <div class="row g-3">
+              <div class="col-6">
+                <label for="card-expiry" class="form-label">Expiry</label>
+                <input type="text" class="form-control" id="card-expiry" inputmode="numeric" autocomplete="off" placeholder="MM/YY" maxlength="5">
+              </div>
+              <div class="col-6">
+                <label for="card-cvc" class="form-label">CVC</label>
+                <input type="password" class="form-control" id="card-cvc" inputmode="numeric" autocomplete="off" placeholder="123" maxlength="4">
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile wallet details -->
+          <div class="payment-panel" id="panel-wallet" hidden>
+            <label class="form-label">Wallet</label>
+            <div class="wallet-options mb-3">
+              <label class="wallet-option">
+                <input type="radio" name="walletProvider" value="JazzCash" checked>
+                <span>JazzCash</span>
+              </label>
+              <label class="wallet-option">
+                <input type="radio" name="walletProvider" value="Easypaisa">
+                <span>Easypaisa</span>
+              </label>
+            </div>
+            <label for="wallet-number" class="form-label">Wallet Account Number</label>
+            <input type="tel" class="form-control" id="wallet-number" inputmode="numeric" autocomplete="off" placeholder="03001234567" maxlength="11">
+            <div class="form-text">The 11-digit mobile number registered with your wallet</div>
+          </div>
+
+          <div class="form-error mt-4 mb-0" id="form-error" role="alert">
+            <i class="fa-solid fa-circle-exclamation mt-1"></i>
+            <span id="form-error-text"></span>
+          </div>
+
+          <button type="submit" class="btn-shop w-100 mt-4" id="place-order-btn"></button>
         </div>
-      
-        <div class="mb-3">
-          <label for="phone" class="form-label">Phone Number</label>
-          <input type="text" class="form-control" id="phone" name="phone" required>
-        </div>
-      
-        <div class="mb-3">
-          <label for="total-price" class="form-label">Total Price</label>
-          <input type="text" class="form-control" id="total-price" name="totalPrice" value="<%= totalPrice %>" readonly>
-        </div>
-      
-        <button type="submit" class="btn btn-primary">Confirm Order</button>
       </form>
     </div>
-      <script>
-     document.getElementById('checkout-form').addEventListener('submit', function(event) {
-     event.preventDefault(); 
 
-  // Get form field values
-  const name = document.getElementById('name').value.trim();
-  const address = document.getElementById('address').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const totalPrice = document.getElementById('total-price').value;
+    <!-- Order summary -->
+    <div class="col-lg-5">
+      <div class="shop-card summary-card">
+        <h3 class="shop-card-title">Your Order</h3>
+        <% products.forEach(product => { %>
+          <div class="summary-item">
+            <img src="<%= product.image %>" alt="<%= product.name %>">
+            <div class="summary-item-name">
+              <%= product.name %>
+              <small>Qty <%= product.quantity %></small>
+            </div>
+            <div class="summary-item-price">Rs.<%= product.price * product.quantity %></div>
+          </div>
+        <% }) %>
+        <div class="summary-total">
+          <span>Total</span>
+          <span>Rs.<%= totalPrice %></span>
+        </div>
+        <div class="text-center">
+          <a href="/cart" class="shop-link">Edit bag</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  // Validate form fields
-  if (!name || !address || !phone || !totalPrice) {
-    alert("Please fill out all required fields.");
-    return;
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const TOTAL = "Rs.<%= totalPrice %>";
+  const form = document.getElementById('checkout-form');
+  const errorBox = document.getElementById('form-error');
+  const errorText = document.getElementById('form-error-text');
+  const submitButton = document.getElementById('place-order-btn');
+  const $ = (id) => document.getElementById(id);
+
+  const getMethod = () => form.querySelector('input[name="paymentMethod"]:checked').value;
+
+  // Show the panel for the chosen payment method and update the button label
+  function updatePaymentUI() {
+    const method = getMethod();
+    $('panel-card').hidden = method !== 'card';
+    $('panel-wallet').hidden = method !== 'wallet';
+    form.querySelectorAll('.payment-option').forEach(option => {
+      option.classList.toggle('selected', option.querySelector('input').checked);
+    });
+    form.querySelectorAll('.wallet-option').forEach(option => {
+      option.classList.toggle('selected', option.querySelector('input').checked);
+    });
+    submitButton.innerHTML = method === 'cod'
+      ? `Place order &middot; ${TOTAL}`
+      : `<i class="fa-solid fa-lock"></i> Pay ${TOTAL}`;
+  }
+  form.querySelectorAll('input[name="paymentMethod"], input[name="walletProvider"]').forEach(input => {
+    input.addEventListener('change', updatePaymentUI);
+  });
+  updatePaymentUI();
+
+  // Card helpers
+  const digitsOnly = (value) => value.replace(/\D/g, '');
+
+  function getCardBrand(number) {
+    if (/^4/.test(number)) return 'Visa';
+    if (/^(5[1-5]|2[2-7])/.test(number)) return 'Mastercard';
+    if (/^3[47]/.test(number)) return 'American Express';
+    if (/^62/.test(number)) return 'UnionPay';
+    return null;
   }
 
-const phonePattern = /^\+?[1-9]\d{7,14}$/; // Regex for international phone numbers
-if (!phonePattern.test(phone)) {
-  alert("Phone number must start with a '+' followed by the country code and have 8 to 15 digits.");
-  return;
-}
+  // Luhn checksum, the check digit real card numbers use
+  function passesLuhn(number) {
+    let sum = 0;
+    for (let i = 0; i < number.length; i++) {
+      let digit = Number(number[number.length - 1 - i]);
+      if (i % 2 === 1) {
+        digit *= 2;
+        if (digit > 9) digit -= 9;
+      }
+      sum += digit;
+    }
+    return number.length > 0 && sum % 10 === 0;
+  }
 
-  // Validate address (should include "street" and "city")
-const addressPattern = /^[\w\s.,#-]+(?:street|st|road|rd|avenue|ave|boulevard|blvd|lane|ln|drive|dr)\b.*(?:city|town|village)\b.*$/i;
-if (!addressPattern.test(address)) {
-  alert("Address must include a valid street name (e.g., 'Street', 'Road', 'Avenue') and a city-like term (e.g., 'City', 'Town').");
-  return;
-}
-
-  // Prepare the data to be sent as JSON
-  const orderData = {
-    name: name,
-    address: address,
-    phone: phone,
-    totalPrice: totalPrice
+  const brandIcons = {
+    'Visa': 'fa-brands fa-cc-visa',
+    'Mastercard': 'fa-brands fa-cc-mastercard',
+    'American Express': 'fa-brands fa-cc-amex',
   };
 
-  // Send the data as JSON
-  fetch('/checkout', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'  // Specify content type as JSON
-    },
-    body: JSON.stringify(orderData) // Convert the data to JSON
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      alert(data.message); // Success message
-      window.location.href = '/'; // Redirect to homepage
-    } else {
-      alert(data.message); // Error message
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('An error occurred while processing your order. Please try again.');
+  $('card-number').addEventListener('input', (event) => {
+    const number = digitsOnly(event.target.value).slice(0, 19);
+    event.target.value = number.replace(/(\d{4})(?=\d)/g, '$1 ');
+    $('card-brand-icon').className = brandIcons[getCardBrand(number)] || 'fa-regular fa-credit-card';
   });
-});
 
-    </script>      
-         
-</body>
-</html>
+  $('card-expiry').addEventListener('input', (event) => {
+    const digits = digitsOnly(event.target.value).slice(0, 4);
+    event.target.value = digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
+  });
+
+  ['card-cvc', 'wallet-number'].forEach(id => {
+    $(id).addEventListener('input', (event) => {
+      event.target.value = digitsOnly(event.target.value);
+    });
+  });
+
+  function showError(message, field) {
+    errorText.textContent = message;
+    errorBox.classList.add('show');
+    form.querySelectorAll('.is-invalid').forEach(input => input.classList.remove('is-invalid'));
+    if (field) {
+      field.classList.add('is-invalid');
+      field.focus({ preventScroll: true });
+    }
+    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function clearError() {
+    errorBox.classList.remove('show');
+    form.querySelectorAll('.is-invalid').forEach(input => input.classList.remove('is-invalid'));
+  }
+
+  // Returns the payment fields to send, or null after showing an error
+  function validatePayment(method) {
+    if (method === 'cod') {
+      return { paymentMethod: 'cod' };
+    }
+
+    if (method === 'card') {
+      const number = digitsOnly($('card-number').value);
+      const brand = getCardBrand(number);
+      if (number.length < 13 || !passesLuhn(number)) {
+        showError('Please enter a valid card number.', $('card-number'));
+        return null;
+      }
+      if (!$('card-name').value.trim()) {
+        showError('Please enter the name on the card.', $('card-name'));
+        return null;
+      }
+      const expiry = $('card-expiry').value.match(/^(\d{2})\/(\d{2})$/);
+      const month = expiry ? Number(expiry[1]) : 0;
+      const now = new Date();
+      const expired = expiry && (2000 + Number(expiry[2]) < now.getFullYear()
+        || (2000 + Number(expiry[2]) === now.getFullYear() && month < now.getMonth() + 1));
+      if (!expiry || month < 1 || month > 12 || expired) {
+        showError('Please enter a valid expiry date in the future (MM/YY).', $('card-expiry'));
+        return null;
+      }
+      const cvcLength = brand === 'American Express' ? 4 : 3;
+      if ($('card-cvc').value.length !== cvcLength) {
+        showError(`Please enter the ${cvcLength}-digit security code (CVC).`, $('card-cvc'));
+        return null;
+      }
+      return { paymentMethod: 'card', cardBrand: brand, cardLast4: number.slice(-4), cardNumberForDemo: number };
+    }
+
+    const walletNumber = $('wallet-number').value;
+    if (!/^03\d{9}$/.test(walletNumber)) {
+      showError('Please enter your 11-digit wallet number, e.g. 03001234567.', $('wallet-number'));
+      return null;
+    }
+    return {
+      paymentMethod: 'wallet',
+      walletProvider: form.querySelector('input[name="walletProvider"]:checked').value,
+      walletLast4: walletNumber.slice(-4),
+    };
+  }
+
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const name = $('name').value.trim();
+    const phone = $('phone').value.replace(/[\s-]/g, '');
+    const street = $('street').value.trim();
+    const city = $('city').value.trim();
+
+    // Validate delivery details
+    if (!name) return showError('Please enter your full name.', $('name'));
+    if (!/^(\+?[1-9]\d{7,14}|0\d{9,10})$/.test(phone)) {
+      return showError('Please enter a valid phone number, e.g. 03001234567 or +923001234567.', $('phone'));
+    }
+    if (street.length < 5 || !/[a-z]/i.test(street)) {
+      return showError('Please enter your street address, including your house number and street or area.', $('street'));
+    }
+    if (!/^[a-z][a-z\s.'-]{1,}$/i.test(city)) {
+      return showError('Please enter your city.', $('city'));
+    }
+
+    const payment = validatePayment(getMethod());
+    if (!payment) return;
+
+    clearError();
+    submitButton.disabled = true;
+    submitButton.textContent = payment.paymentMethod === 'cod' ? 'Placing order...' : 'Processing payment...';
+
+    // Simulated payment: a short pause, and the decline test card fails
+    if (payment.paymentMethod !== 'cod') {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      if (payment.cardNumberForDemo === '4000000000000002') {
+        showError('Your card was declined. Please try a different card or payment method.', $('card-number'));
+        submitButton.disabled = false;
+        updatePaymentUI();
+        return;
+      }
+    }
+    delete payment.cardNumberForDemo;  // Only the brand and last 4 digits are sent
+
+    try {
+      const response = await fetch('/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, street, city, ...payment }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        window.location.href = data.redirect;
+        return;
+      }
+      showError(data.message);
+    } catch (error) {
+      console.error('Error:', error);
+      showError('Something went wrong while placing your order. Please try again.');
+    }
+    submitButton.disabled = false;
+    updatePaymentUI();
+  });
+</script>

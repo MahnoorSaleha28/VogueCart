@@ -8,7 +8,10 @@
           </a>
         </div>
   
-        <div class="col-auto" >
+        <div class="col-auto d-flex align-items-center">
+          <button type="button" class="nav-search-toggle d-lg-none me-2" aria-label="Search" aria-controls="siteSearch" aria-expanded="false">
+            <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+          </button>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -20,55 +23,39 @@
             </div>
   
             <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-md-5 pe-3">
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle active" href="/clothes" id="dropdownHome" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clothes</a>
-                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownHome">
-                    <li>
-                      <a href="/clothes" class="dropdown-item item-anchor">View All</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="/jewellery" id="dropdownShop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jewellery</a>
-                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownShop">
-                    <li>
-                      <a href="/jewellery" class="dropdown-item item-anchor">View All</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="dropdownBlog" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bags</a>
-                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownBlog">
-                    <li>
-                      <a href="/bags" class="dropdown-item item-anchor">View All</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="/toys" id="dropdownPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Toys</a>
-                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
-                    <li>
-                      <a href="/toys" class="dropdown-item item-anchor">View All</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="dropdownPages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accessories</a>
-                  <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdownPages">
-                    <li>
-                      <a href="/accessories" class="dropdown-item item-anchor">View All</a>
-                    </li>
-                  </ul>
-                </li>
+              <ul class="navbar-nav justify-content-end flex-grow-1 gap-1 gap-lg-2 gap-xxl-4 pe-3">
+                <%
+                  // Highlight the category being viewed: its own page, or a product from it
+                  const navPath = typeof currentPath !== "undefined" ? currentPath : "";
+                  const navProductCategory = typeof product !== "undefined" && product && product.category && product.category.name
+                    ? product.category.name.toLowerCase() : "";
+                  const navCategories = ["Clothes", "Jewellery", "Bags", "Toys", "Accessories"];
+                %>
+                <% navCategories.forEach(name => { %>
+                  <% const slug = name.toLowerCase(); %>
+                  <% const isActive = navPath.startsWith("/" + slug) || navProductCategory === slug; %>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle <%= isActive ? "active" : "" %>" href="/<%= slug %>" id="dropdown-<%= slug %>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" <%- isActive ? 'aria-current="page"' : "" %>><%= name %></a>
+                    <ul class="dropdown-menu list-unstyled" aria-labelledby="dropdown-<%= slug %>">
+                      <li>
+                        <a href="/<%= slug %>" class="dropdown-item item-anchor">View All</a>
+                      </li>
+                    </ul>
+                  </li>
+                <% }) %>
                 <li class="nav-item">
                   <a class="nav-link" href="/admin/login">Admin Panel</a>
+                </li>
+                <li class="nav-item d-none d-lg-block">
+                  <button type="button" class="nav-link nav-search-toggle" aria-label="Search" aria-controls="siteSearch" aria-expanded="false">
+                    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                  </button>
                 </li>
                 <li class="nav-item position-relative">
                   <a href="/cart" class="nav-link text-dark">
                       <i class="fa-solid fa-cart-shopping px-2 fa-lg"></i>
                       <% if (cartCount > 0) { %>
-                          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
                               <%= cartCount %>
                           </span>
                       <% } %>
@@ -90,4 +77,52 @@
     
       </div>
   </div>
+  <%
+    // Stays open with the search filled in on the results page
+    const searchQuery = typeof query !== "undefined" && typeof currentPath !== "undefined" && currentPath === "/search" ? query : "";
+  %>
+  <div class="site-search w-100" id="siteSearch" <%= searchQuery ? "" : "hidden" %>>
+    <form action="/search" method="GET" class="site-search-form" role="search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="search" name="search" id="siteSearchInput" value="<%= searchQuery %>" placeholder="Search products, e.g. backpack, earrings, Disney" aria-label="Search products" autocomplete="off" required>
+      <button type="submit" class="site-search-submit">Search</button>
+      <button type="button" class="site-search-close" aria-label="Close search">&times;</button>
+    </form>
+  </div>
 </nav>
+
+<script>
+  (function () {
+    var bar = document.getElementById("siteSearch");
+    var input = document.getElementById("siteSearchInput");
+    var toggles = document.querySelectorAll(".nav-search-toggle");
+    function setOpen(open) {
+      bar.hidden = !open;
+      toggles.forEach(function (t) { t.setAttribute("aria-expanded", open); });
+      if (open) input.focus();
+    }
+    toggles.forEach(function (t) {
+      t.addEventListener("click", function () { setOpen(bar.hidden); });
+    });
+    bar.querySelector(".site-search-close").addEventListener("click", function () { setOpen(false); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !bar.hidden) setOpen(false);
+    });
+  })();
+</script>
+
+<% if (typeof cartMessage !== 'undefined' && cartMessage) { %>
+<!-- "Added to your bag" toast -->
+<div class="cart-toast" id="cartToast" role="status">
+  <i class="fa-solid fa-circle-check"></i>
+  <span><%= cartMessage %></span>
+  <a href="/cart">VIEW BAG</a>
+  <button type="button" class="cart-toast-close" aria-label="Close" onclick="this.parentElement.remove()">&times;</button>
+</div>
+<script>
+  setTimeout(function () {
+    var toast = document.getElementById("cartToast");
+    if (toast) toast.classList.add("cart-toast-hide");
+  }, 4000);
+</script>
+<% } %>

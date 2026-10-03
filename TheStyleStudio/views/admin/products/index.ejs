@@ -1,61 +1,84 @@
-<h3><%-pageTitle  %></h3>
+<div class="admin-card-header">
+  <form class="admin-search" action="/admin/products" method="GET" role="search">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" value="<%= search %>" placeholder="Search products" aria-label="Search products">
+  </form>
+  <a href="/admin/products/create" class="btn-admin"><i class="fa-solid fa-plus"></i> Add Product</a>
+</div>
 
-<a href="/admin/products/create" class="btn btn-info">Add Product</a>
-<table class="table table-hover table-responsive">
+<p class="admin-muted">
+  <% if (search) { %>
+    <%= totalRecords %> <%= totalRecords === 1 ? 'result' : 'results' %> for "<%= search %>" &middot; <a href="/admin/products" class="text-dark text-decoration-underline">Clear search</a>
+  <% } else { %>
+    <%= totalRecords %> products
+  <% } %>
+</p>
+
+<div class="admin-table-wrap">
+  <table class="admin-table">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Actions</th>
-        </tr>
+      <tr>
+        <th>Product</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th class="d-none d-xl-table-cell">Description</th>
+        <th class="text-end">Actions</th>
+      </tr>
     </thead>
     <tbody>
-        <% for( let index = 0; index < products.length; index++ ) { %>
-            <tr>
-                <td><%= products[index]._id %></td>
-                <td><%= products[index].name %></td>
-                <td><%= products[index].price %></td>
-                <td><img src="<%= products[index].image %>" alt="<%= products[index].title %>" style="width: 100px; height: auto;"></td>
-                <td><%= products[index].description %></td>
-                <td><%= products[index].category ? products[index].category.name : 'No category' %></td>
-                <td>
-                    <a href="/admin/products/edit/<%= products[index]._id %>" class="btn btn-warning">Edit</a>
-                    <form action="/admin/products/delete/<%= products[index]._id %>" method="POST" style="display:inline;">
-                        <button type="submit" class="btn btn-danger mt-2">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        <% } %>
+      <% if (products.length === 0) { %>
+        <tr>
+          <td colspan="5">
+            <div class="admin-empty"><i class="fa-solid fa-shirt"></i><%= search ? 'No products match your search.' : 'No products yet.' %></div>
+          </td>
+        </tr>
+      <% } %>
+      <% products.forEach(product => { %>
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <img class="admin-thumb" src="<%= product.image %>" alt="<%= product.name %>">
+              <a class="admin-item-name text-dark" href="/productDetail/<%= product._id %>" target="_blank"><%= product.name %></a>
+            </div>
+          </td>
+          <td>
+            <% if (product.category) { %>
+              <span class="admin-badge"><%= product.category.name %></span>
+            <% } else { %>
+              <span class="admin-badge warning">No category</span>
+            <% } %>
+          </td>
+          <td class="fw-semibold text-nowrap">Rs.<%= product.price %></td>
+          <td class="d-none d-xl-table-cell"><div class="admin-clamp"><%= product.description %></div></td>
+          <td>
+            <div class="admin-actions">
+              <a href="/admin/products/edit/<%= product._id %>" class="btn-icon" title="Edit" aria-label="Edit <%= product.name %>"><i class="fa-solid fa-pen"></i></a>
+              <form action="/admin/products/delete/<%= product._id %>" method="POST" data-confirm="Delete &quot;<%= product.name %>&quot;? This can't be undone.">
+                <button type="submit" class="btn-icon danger" title="Delete" aria-label="Delete <%= product.name %>"><i class="fa-solid fa-trash-can"></i></button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      <% }) %>
     </tbody>
-</table>
-
-<ul class="pagination justify-content-center p-3">
-    <!-- Previous Button -->
-    <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
-        <a class="page-link text-secondary" href="/admin/products/<%= page - 1 %>">Previous</a>
-    </li>
-
-    <!-- Loop to generate page numbers -->
-    <% for (let i = 1; i <= totalPages; i++) { %>
-        <li class="page-item <%= page == i ? 'active' : '' %>">
-            <a 
-                class="page-link <%= page == i ? 'bg-secondary text-white' : 'text-secondary' %>" 
-                href="/admin/products/<%= i %>">
-                <%= i %>
-            </a>
-        </li>
-    <% } %>
-
-    <!-- Next Button -->
-    <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
-        <a class="page-link text-secondary" href="/admin/products/<%= page + 1 %>">Next</a>
-    </li>
-</ul>
-
-<div class="pagination mb-3 justify-content-center">
-    Page <%= page %> of <%= totalPages %>
+  </table>
 </div>
+
+<% if (totalPages > 1) { %>
+  <% const query = search ? '?q=' + encodeURIComponent(search) : ''; %>
+  <nav aria-label="Product pages" class="mt-4">
+    <ul class="pagination admin-pagination justify-content-center flex-wrap">
+      <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+        <a class="page-link" href="/admin/products/<%= page - 1 %><%= query %>" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></a>
+      </li>
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= page === i ? 'active' : '' %>">
+          <a class="page-link" href="/admin/products/<%= i %><%= query %>"><%= i %></a>
+        </li>
+      <% } %>
+      <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+        <a class="page-link" href="/admin/products/<%= page + 1 %><%= query %>" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></a>
+      </li>
+    </ul>
+  </nav>
+<% } %>

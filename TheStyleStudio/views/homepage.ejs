@@ -22,12 +22,7 @@
         <div class="col-12 col-md-6">
           <div class="text-center">
             <p class="text-white pt-4 fs-4">LAST CHANCE!</p>
-            <img
-              class="img-fluid"
-              id="sale-img"
-              src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dwba7cd703/homepage-images/FY2024/wk31/end-of-season.gif"
-              alt="Sale Sale Sale"
-            />
+            <p class="sale-text">SALE</p>
             <p class="text-white">Exclusions apply</p>
           </div>
         </div>
@@ -47,55 +42,28 @@
     <!-- Best Seller Products -->
     <div class="container mt-5">
       <h2 class="mb-4 text-center">Best Sellers</h2>
-      <div class="row">
-        <div class="col-6 col-md-3 mb-4">
-          <div class="product-card">
-            <img
-              class="prod-img img-fluid"
-              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dw4688051b/images/hi-res/52647_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
-              alt="Translucent Daisy Backpack"
-            />
-            <p>Translucent Daisy Backpack</p>
-            <p><del>Rs.3500</del> <strong>Rs.2100</strong></p>
-            <button class="btn btn-custom">ADD TO BAG</button>
+      <div class="row justify-content-center">
+        <% bestSellers.forEach(product => { %>
+          <div class="col-6 col-md-3 mb-4">
+            <div class="product-card">
+              <div class="product-image-container">
+                <img
+                  class="prod-img img-fluid"
+                  src="<%= product.image %>"
+                  alt="<%= product.name %>"
+                />
+              </div>
+              <div class="product-info">
+                <h5 class="product-name"><%= product.name %></h5>
+                <p class="product-price"><strong>Rs.<%= product.price %></strong></p>
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="productId" value="<%= product.id %>">
+                  <button type="submit" class="btn btn-custom">ADD TO BAG</button>
+                </form>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-6 col-md-3 mb-4">
-          <div class="product-card">
-            <img
-              class="prod-img img-fluid"
-              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dwd6e56414/images/hi-res/91130_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
-              alt="Rose Gold-tone Earrings"
-            />
-            <p>Rose Gold-tone Filigree Earrings</p>
-            <p><del>Rs.4000</del> <strong>Rs.3000</strong></p>
-            <button class="btn btn-custom">ADD TO BAG</button>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 mb-4">
-          <div class="product-card">
-            <img
-              class="prod-img img-fluid"
-              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dw1e843da9/images/hi-res/67156_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
-              alt="Big Sis & Little Sis Necklace"
-            />
-            <p>Butterfly Necklace</p>
-            <p><del>Rs.1200</del> <strong>Rs.899</strong></p>
-            <button class="btn btn-custom">ADD TO BAG</button>
-          </div>
-        </div>
-        <div class="col-6 col-md-3 mb-4">
-          <div class="product-card">
-            <img
-              class="prod-img img-fluid"
-              src="https://www.claires.com/dw/image/v2/BBTK_PRD/on/demandware.static/-/Sites-master-catalog/default/dw68885bfe/images/hi-res/73127_1.jpg?sw=290&amp;sh=290&amp;sm=fit"
-              alt="Star Sequin Hair Bow Clips"
-            />
-            <p>Hair Bow Clips-6 Pack</p>
-            <p><del>Rs.550</del> <strong>Rs.275</strong></p>
-            <button class="btn btn-custom">ADD TO BAG</button>
-          </div>
-        </div>
+        <% }) %>
       </div>
     </div>
 
@@ -104,7 +72,11 @@
         <% categoryProducts.forEach(category => { %>
           <!-- Category Section -->
           <div class="container mt-5">
-            <h2 class="mb-4 text-center"><%= category.category %></h2> <!-- Centered Category Title -->
+            <h2 class="mb-4 text-center"> <!-- Centered Category Title, links to the category page -->
+              <a class="category-link" href="/<%= category.category.toLowerCase() %>">
+                <%= category.category %> <i class="fa-solid fa-chevron-right"></i>
+              </a>
+            </h2>
             <div class="row justify-content-center">
               <% category.products.forEach(product => { %>
                 <div class="col-6 col-md-3 mb-4">
@@ -133,6 +105,11 @@
                 </div>
               <% }) %>
             </div>
+            <div class="text-center">
+              <a href="/<%= category.category.toLowerCase() %>" class="btn btn-custom1 view-all-btn">
+                VIEW ALL <%= category.category.toUpperCase() %>
+              </a>
+            </div>
           </div>
         <% }) %>
       <% } else { %>
@@ -142,67 +119,45 @@
     
   <!--Brands Heading-->
     <div class="container mt-5">
-      <div class="col-md-12">
-        <div class="best-seller-title">
-          <div>
-            <img
-              class="arrow-img"
-              src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dw63f7cfa9/homepage-images/FY2024/wk24/purple-arrow.png"
-              data-src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dw63f7cfa9/homepage-images/FY2024/wk24/purple-arrow.png"
-              alt="Yellow Arrow"
-            />
-          </div>
-          <div><h3 class="ps-5 fw-bold">New Collaborations</h3></div>
-          <div>
-            <img
-              class="circle-img"
-              src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dwa0d6326d/homepage-images/FY2024/wk24/circle-blue.png"
-              data-src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dwa0d6326d/homepage-images/FY2024/wk24/circle-blue.png"
-              alt="Blue Circle"
-            />
-          </div>
-          <div><p class="shop-all fw-bold">SHOP ALL</p></div>
-        </div>
+      <div class="best-seller-title">
+        <span class="collab-icon"><i class="fa-solid fa-arrow-right"></i></span>
+        <h3 class="fw-bold mb-0">New Collaborations</h3>
+        <a href="/toys" class="shop-all fw-bold">SHOP ALL</a>
       </div>
     </div>
 
     <!-- Brands Section -->
     <div class="container mt-5">
-      <div class="row">
-        <div class="col-6 col-md-4 col-lg-2 mb-4 d-flex justify-content-center">
-          <img
-            class="brands-imgs img-fluid"
-            src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dw9bc33e60/homepage-images/FY2024/wk08/wed/hello-kitty.jpg"
-            alt="Hello Kitty"
-          />
+      <div class="row justify-content-center">
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+          <a class="brand-tile" href="/search?search=Hello%20Kitty%20Soft%20Toy">
+            <img class="brands-imgs" src="/images/1733776464991.webp" alt="Hello Kitty" />
+            <span>Hello Kitty</span>
+          </a>
         </div>
-        <div class="col-6 col-md-4 col-lg-2 mb-4 d-flex justify-content-center">
-          <img
-            class="brands-imgs img-fluid"
-            src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dw08c7ffe1/homepage-images/FY2024/wk08/wed/squishmallows.jpg"
-            alt="Original Squishmallows"
-          />
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+          <a class="brand-tile" href="/search?search=Squishmallows">
+            <img class="brands-imgs" src="/images/1733776784577.jpg" alt="Squishmallows" />
+            <span>Squishmallows</span>
+          </a>
         </div>
-        <div class="col-6 col-md-4 col-lg-2 mb-4 d-flex justify-content-center">
-          <img
-            class="brands-imgs img-fluid"
-            src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dw204a85bc/homepage-images/FY2024/wk08/wed/pusheen.jpg"
-            alt="Pusheen"
-          />
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+          <a class="brand-tile" href="/search?search=Pusheen%20Pink%20Satchel%20Bag">
+            <img class="brands-imgs" src="/images/1733815325235.jpg" alt="Pusheen" />
+            <span>Pusheen</span>
+          </a>
         </div>
-        <div class="col-6 col-md-4 col-lg-2 mb-4 d-flex justify-content-center">
-          <img
-            class="brands-imgs img-fluid"
-            src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dwc40ca2b7/homepage-images/FY2024/wk08/wed/stitch.jpg"
-            alt="Disney Stitch"
-          />
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+          <a class="brand-tile" href="/search?search=Disney%20Stitch%20Soft%20Toy">
+            <img class="brands-imgs" src="/images/1733777982465.jpg" alt="Disney Stitch" />
+            <span>Disney Stitch</span>
+          </a>
         </div>
-        <div class="col-6 col-md-4 col-lg-2 mb-4 d-flex justify-content-center">
-          <img
-            class="brands-imgs img-fluid"
-            src="https://www.claires.com/on/demandware.static/-/Library-Sites-claires-library/default/dwfbfd4c4b/homepage-images/FY2024/wk23/wednesday.jpg"
-            alt="Wednesday"
-          />
+        <div class="col-6 col-md-4 col-lg-2 mb-4">
+          <a class="brand-tile" href="/search?search=Disney%20Princess%20Shoulder%20Bag">
+            <img class="brands-imgs" src="/images/1733760641021.webp" alt="Disney Princess" />
+            <span>Disney Princess</span>
+          </a>
         </div>
       </div>
     </div>

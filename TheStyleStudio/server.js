@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config();
+require("dotenv").config({ path: require("path").join(__dirname, "..", ".env") });
+// Node on this machine resolves DNS via 127.0.0.1, which refuses the Atlas SRV lookup
+require("dns").setServers(["8.8.8.8", "1.1.1.1"]);
 const expressEjsLayouts = require("express-ejs-layouts");
 const server = express();
 const Product = require("./models/products.model");
@@ -15,12 +17,28 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 
+const MongoStore = require("connect-mongo");
+
+// Without SESSION_SECRET a random one is used, which still works but logs everyone out on every restart
+let sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret) {
+  console.warn("SESSION_SECRET is not set; using a random secret for this run.");
+  sessionSecret = crypto.randomBytes(32).toString("hex");
+}
+
 server.use(
   session({
-    secret: "yourSecretKey", // Replace with your own secret key
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // Set to true if using HTTPS
+    // Sessions (logins and carts) live in MongoDB, so they survive restarts and the free host sleeping
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+      collectionName: "sessions",
+      ttl: 14 * 24 * 60 * 60, // 14 days
+      touchAfter: 24 * 60 * 60, // Only re-save an unchanged session once a day
+    }),
+    cookie: { secure: false, maxAge: 14 * 24 * 60 * 60 * 1000 },
   }),
 );
 
@@ -39,8 +57,13 @@ server.use(express.urlencoded({ extended: true }));
 // Middleware for global cart count
 server.use((req, res, next) => {
   if (!req.session.cart) req.session.cart = [];
-  res.locals.cartCount = req.session.cart.length;
+  // Count every item, so 2 of the same product shows as 2
+  res.locals.cartCount = req.session.cart.reduce((total, item) => total + Number(item.quantity), 0);
   res.locals.user = req.session.user || null; // Make user data available globally
+  res.locals.currentPath = req.path; // Lets the navbar highlight the current category
+  // "Added to your bag" toast, shown once on the page after adding to the cart
+  res.locals.cartMessage = req.session.cartMessage || null;
+  delete req.session.cartMessage;
   next();
 });
 
@@ -49,7 +72,16 @@ const flashMiddleware = require("./middlewares/flashmessages");
 // Use flashMiddleware for all routes
 server.use(flashMiddleware);
 
-const port = 5000;
+// Every /admin page and action needs an admin login, except the login and demo sign-in pages
+const adminAuth = require("./middlewares/admin-middleware");
+server.use("/admin", (req, res, next) => {
+  if (req.path === "/login" || req.path === "/demo") return next();
+  res.locals.currentPath = req.originalUrl; // Highlights the active sidebar link
+  res.locals.admin = req.session.admin || null;
+  adminAuth(req, res, next);
+});
+
+const port = process.env.PORT || 5000; // Hosts like Render set PORT
 
 server.get("/", async (req, res) => {
   try {
@@ -70,36 +102,73 @@ server.get("/", async (req, res) => {
       }),
     );
 
+    // Best sellers: products with the highest total quantity across all orders
+    const topSold = await Order.aggregate([
+      { $unwind: "$products" },
+      { $group: { _id: "$products.productId", sold: { $sum: "$products.quantity" } } },
+      { $sort: { sold: -1, _id: -1 } },
+      { $limit: 12 },
+    ]);
+    const soldIds = topSold.map((entry) => entry._id);
+    const soldProducts = await Product.find({ _id: { $in: soldIds } });
+    // Keep the sales ranking and skip products that have since been deleted
+    const bestSellers = soldIds
+      .map((id) => soldProducts.find((product) => product._id.equals(id)))
+      .filter(Boolean)
+      .slice(0, 4);
+    // Fill any remaining spots with the newest products
+    if (bestSellers.length < 4) {
+      const newest = await Product.find({
+        _id: { $nin: bestSellers.map((product) => product._id) },
+      })
+        .sort({ _id: -1 })
+        .limit(4 - bestSellers.length);
+      bestSellers.push(...newest);
+    }
+
     // Render the homepage with category and product data
-    res.render("homepage.ejs", { categoryProducts });
+    res.render("homepage.ejs", { categoryProducts, bestSellers });
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
   }
 });
 
-const adminAuth = require("./middlewares/admin-middleware");
-
-server.get("/admin", adminAuth, (req, res) => {
-  res.render("admin/dashboard", {
-    layout: "adminlayout",
-    pageTitle: "Admin Dashboard",
-  });
+server.get("/admin", (req, res) => {
+  res.redirect("/admin/dashboard");
 });
 
-server.get("/admin/dashboard", adminAuth, (req, res) => {
-  res.render("admin/dashboard", {
-    layout: "adminlayout",
-    pageTitle: "Admin Dashboard",
-  });
-});
+const adminDashboardRouter = require("./routes/admin/dashboard.controller");
+server.use(adminDashboardRouter);
 
 //Admin login
-server.get("/admin/login", (req, res) => {
+server.get("/admin/login", async (req, res) => {
+  if (req.session.admin) {
+    return res.redirect("/admin/dashboard");
+  }
   res.render("admin/login", {
     layout: false,
     pageTitle: "Admin Login",
+    demoAvailable: Boolean(await Admin.exists({ role: "demo" })), // Shows the "View demo" button
   });
+});
+
+// Signs visitors in as the read-only demo admin, no password needed. Link to /admin/demo from a portfolio.
+server.get("/admin/demo", async (req, res) => {
+  const demo = await Admin.findOne({ role: "demo" });
+  if (!demo) {
+    req.session.errorMessage = "The demo isn't available right now.";
+    return res.redirect("/admin/login");
+  }
+  req.session.admin = { _id: demo._id.toString(), email: demo.email, role: "demo" };
+  res.redirect("/admin/dashboard");
+});
+
+//Admin logout
+server.post("/admin/logout", (req, res) => {
+  delete req.session.admin;
+  req.session.successMessage = "You have been logged out.";
+  res.redirect("/admin/login");
 });
 
 //user login
@@ -116,19 +185,15 @@ server.post("/admin/login", async (req, res) => {
   try {
     const admin = await Admin.findOne({ email });
 
-    // Check if admin exists
-    if (!admin) {
-      return res.status(401).send("Invalid email or password");
-    }
-
     // Compare the entered password with the stored hashed password
-    const isPasswordValid = await bcrypt.compare(password, admin.password);
+    const isPasswordValid = admin && (await bcrypt.compare(password || "", admin.password));
     if (!isPasswordValid) {
-      return res.status(401).send("Invalid email or password");
+      req.session.errorMessage = "Invalid email or password.";
+      return res.redirect("/admin/login");
     }
 
-    // If password is correct, store admin in session
-    req.session.admin = admin;
+    // If password is correct, store admin in session (never the password hash)
+    req.session.admin = { _id: admin._id.toString(), email: admin.email, role: admin.role };
     res.redirect("/admin/dashboard");
   } catch (error) {
     console.error(error);
@@ -153,7 +218,7 @@ const connectionString = process.env.MONGODB_URI;
 
 mongoose
   .connect(connectionString)
-  .then(() => console.log("Connected to Mongo DB Server: " + connectionString))
+  .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.log(error.message));
 
 // Import the cart routes
@@ -172,5 +237,5 @@ const userController = require("./routes/admin/user.controller");
 server.use(userController);
 
 server.listen(port, () => {
-  console.log("Server started at localhost:5000");
+  console.log(`Server started on port ${port}`);
 });

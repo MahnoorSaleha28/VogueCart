@@ -1,36 +1,37 @@
-<h3><%- pageTitle %></h3>
+<div class="admin-card-header">
+  <p class="admin-muted mb-0"><%= categories.length %> categories</p>
+  <a href="/admin/categories/create" class="btn-admin"><i class="fa-solid fa-plus"></i> Add Category</a>
+</div>
 
-<a href="/admin/categories/create" class="btn btn-info mb-3">Add Category</a>
-<table class="table table-hover table-responsive">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Products</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% for (let index = 0; index < categories.length; index++) { %>
-            <tr>
-                <td><%= categories[index]._id %></td>
-                <td><%= categories[index].name %></td>
-                <td><%= categories[index].description || 'N/A' %></td>
-                <td>
-                    <% if (Array.isArray(categories[index].products) && categories[index].products.length > 0) { %>
-                        <%= categories[index].products.map(product => product.name).join(', ') %>
-                    <% } else { %>
-                        No products
-                    <% } %>
-                </td>
-                <td>
-                    <a href="/admin/categories/edit/<%= categories[index]._id %>" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="/admin/categories/delete/<%= categories[index]._id %>" method="POST" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm mt-2">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        <% } %>
-    </tbody>
-</table>
+<% if (categories.length === 0) { %>
+  <div class="admin-card admin-empty"><i class="fa-solid fa-layer-group"></i>No categories yet.</div>
+<% } %>
+
+<div class="row g-4">
+  <% categories.forEach(category => { %>
+    <% const count = productCounts[String(category._id)] || 0; %>
+    <div class="col-md-6 col-xl-4">
+      <div class="admin-card h-100 d-flex flex-column">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <% if (covers[String(category._id)]) { %>
+            <img class="admin-thumb" src="<%= covers[String(category._id)] %>" alt="">
+          <% } else { %>
+            <span class="stat-icon"><i class="fa-solid fa-layer-group"></i></span>
+          <% } %>
+          <div>
+            <h2 class="admin-card-title"><%= category.name %></h2>
+            <span class="admin-muted"><%= count %> <%= count === 1 ? 'product' : 'products' %></span>
+          </div>
+        </div>
+        <p class="admin-clamp mb-4" style="max-width:none"><%= category.description || 'No description' %></p>
+        <div class="d-flex align-items-center gap-2 mt-auto">
+          <a href="/admin/categories/edit/<%= category._id %>" class="btn-admin-outline"><i class="fa-solid fa-pen"></i> Edit</a>
+          <a href="/<%= category.name.toLowerCase() %>" target="_blank" class="btn-icon" title="View in store" aria-label="View <%= category.name %> in store"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          <form class="ms-auto" action="/admin/categories/delete/<%= category._id %>" method="POST" data-confirm="Delete the &quot;<%= category.name %>&quot; category?">
+            <button type="submit" class="btn-icon danger" title="Delete" aria-label="Delete <%= category.name %>"><i class="fa-solid fa-trash-can"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>

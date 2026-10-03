@@ -15,16 +15,13 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-  <nav aria-label="breadcrumb" style="margin-left:110px; margin-top:10px;">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="/">Home</a> >
-            <a href="/clothes">Clothes</a>
-        </li>
-    </ol>
-  </nav>
-
-  <div class="container my-5">
+  <div class="container mt-3 mb-5">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-2">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Clothes</li>
+      </ol>
+    </nav>
     <h2 class="mb-4">Clothes</h2>
     
     <!-- Filter and Sort Section -->
@@ -63,7 +60,7 @@
           <div class="col-6 col-md-3 mb-4">
             <div class="product-card">
               <a href="/productDetail/<%= product._id %>">
-                <img class="card-img-top img-fluid" src="<%= product.image %>" alt="<%= product.name %>">
+                <img class="card-img-top card-img-portrait img-fluid" src="<%= product.image %>" alt="<%= product.name %>">
               </a>
               <p><strong><%= product.name %></strong></p>
               <p class="card-text">Rs.<%= product.price %></p>

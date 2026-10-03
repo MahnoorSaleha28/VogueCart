@@ -11,6 +11,10 @@ const orderSchema = new mongoose.Schema({
     }
   ], // Array of product objects containing both productId and quantity
   totalPrice: { type: Number, required: true },
+  // Simulated payment (no real transaction): method, status and a masked summary such as "Visa •••• 4242"
+  paymentMethod: { type: String, enum: ['cod', 'card', 'wallet'], default: 'cod' },
+  paymentStatus: { type: String, enum: ['Paid', 'Pay on delivery'], default: 'Pay on delivery' },
+  paymentDetails: { type: String },
   createdAt: { type: Date, default: Date.now }
 });
 

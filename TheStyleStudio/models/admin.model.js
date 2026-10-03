@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const adminSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    // "demo" can view the admin panel but not change anything, with customer details masked
+    role: { type: String, enum: ['admin', 'demo'], default: 'admin' },
 });
 
 // Pre-save hook to hash the password before saving it

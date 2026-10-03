@@ -1,27 +1,37 @@
 const express = require("express");
-const multer = require("multer");
-const path = require("path");
 let router = express.Router();
 let Product = require("../../models/products.model")
 let Category = require("../../models/categories.model");
+const { uploadSingle, saveImage } = require("../../utils/imageUpload");
 
-router.get('/admin/products/:page?', async (req, res) => {
+// Escape regex characters so a search like "(" is matched literally
+const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// Page number is digits only, so /admin/products/create isn't treated as a page
+router.get('/admin/products/:page(\\d+)?', async (req, res) => {
   try {
     //adding pagination
     let page = req.params.page;
     page = page ? Number(page) : 1;
     let pageSize = 12;
-    let totalRecords = await Product.countDocuments();
-    let totalPages = Math.ceil(totalRecords / pageSize);
 
-      let products = await Product.find().populate('category')
+    // Optional search by product name
+    const search = (req.query.q || '').trim();
+    const filter = search ? { name: { $regex: escapeRegex(search), $options: 'i' } } : {};
+
+    let totalRecords = await Product.countDocuments(filter);
+    let totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
+
+      let products = await Product.find(filter).populate('category')
+      .sort({ _id: -1 })  // Newest first
       .limit(pageSize)
       .skip((page - 1) * pageSize);
 
       res.render('admin/products/index', {
           layout: 'adminlayout',
-          pageTitle: 'Manage Products',
+          pageTitle: 'Products',
           products,
+          search,
           page:page,
           pageSize:pageSize,
           totalPages:totalPages,
@@ -35,41 +45,42 @@ router.get('/admin/products/:page?', async (req, res) => {
 
 //product details from db
 router.get('/admin/products/create', async (req, res) => {
-  const categories = await Category.find();
+  const categories = await Category.find().sort({ name: 1 });
   res.render('admin/products/create', {
     layout: 'adminlayout',
-    categories, 
+    pageTitle: 'Add Product',
+    categories,
   });
 });
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images"); // Path to save images
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename with original extension
-  },
-});
-const upload = multer({ storage: storage });
-
 // Handle new product form data
-router.post('/admin/products/create', upload.single('productImage'), async (req, res) => {
+router.post('/admin/products/create', uploadSingle('productImage'), async (req, res) => {
   try {
     let data = req.body;
+    if (!data.name || !data.price || !data.category) {
+      req.session.errorMessage = "Please fill in the product name, price and category.";
+      return res.redirect('/admin/products/create');
+    }
     if (req.file) {
-      data.image = `/images/${req.file.filename}`;
+      try {
+        data.image = await saveImage(req.file);
+      } catch (uploadError) {
+        console.error("Image upload failed:", uploadError);
+        req.session.errorMessage = "The image could not be uploaded. Please try again.";
+        return res.redirect('/admin/products/create');
+      }
     }
     const newProduct = new Product(data);
     await newProduct.save();
-        
-    // Finding the associated category and adding the new product to it
-    let category = await Category.findById(data.categoryId);
-    category.products.push(newProduct._id);
-    await category.save();
 
-    // return res.send(newProduct);                                           --displaying the newly created product's details.
-    // return res.render("admin/product-form", { layout: "adminlayout" });    --allowing user to see the form again 
-    
+    // Finding the associated category and adding the new product to it
+    let category = await Category.findById(data.category);
+    if (category) {
+      category.products.push(newProduct._id);
+      await category.save();
+    }
+
+    req.session.successMessage = `"${newProduct.name}" was added.`;
     res.redirect('/admin/products');
   } catch (err) {
     console.error(err);
@@ -80,10 +91,15 @@ router.post('/admin/products/create', upload.single('productImage'), async (req,
 router.get('/admin/products/edit/:id', async(req, res) => {
   try {
     let product = await Product.findById(req.params.id).populate('category');
-    const categories = await Category.find();
+    if (!product) {
+      req.session.errorMessage = "That product no longer exists.";
+      return res.redirect('/admin/products');
+    }
+    const categories = await Category.find().sort({ name: 1 });
 
     res.render("admin/products/edit", {
       layout: "adminlayout",
+      pageTitle: "Edit Product",
       product,
       categories,
     });
@@ -94,16 +110,33 @@ router.get('/admin/products/edit/:id', async(req, res) => {
   }
 });
 
-router.post('/admin/products/edit/:id', upload.single('productImage'), async (req, res) => {
+router.post('/admin/products/edit/:id', uploadSingle('productImage'), async (req, res) => {
   try {
-    let product = await Product.findById(req.params.id);
-    let data = req.body; 
-    if (req.file) {
-      data.image = `/images/${req.file.filename}`;
+    let data = req.body;
+    if (!data.name || !data.price || !data.category) {
+      req.session.errorMessage = "Please fill in the product name, price and category.";
+      return res.redirect(`/admin/products/edit/${req.params.id}`);
     }
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, data, { new: true });
+    if (req.file) {
+      try {
+        data.image = await saveImage(req.file);
+      } catch (uploadError) {
+        console.error("Image upload failed:", uploadError);
+        req.session.errorMessage = "The image could not be uploaded. Please try again.";
+        return res.redirect(`/admin/products/edit/${req.params.id}`);
+      }
+    }
+    const oldProduct = await Product.findByIdAndUpdate(req.params.id, data);
+
+    // Keep the categories' product lists in step when the category changes
+    if (oldProduct && String(oldProduct.category) !== String(data.category)) {
+      await Category.updateOne({ _id: oldProduct.category }, { $pull: { products: oldProduct._id } });
+      await Category.updateOne({ _id: data.category }, { $addToSet: { products: oldProduct._id } });
+    }
+
+    req.session.successMessage = `"${data.name}" was updated.`;
     res.redirect('/admin/products');
-    
+
   } catch (err) {
     console.error(err);
     res.status(500).send("Error updating product.");
@@ -114,11 +147,14 @@ router.post("/admin/products/delete/:id", async(req, res) => {
   try{
     let product = await Product.findByIdAndDelete(req.params.id);
     if (!product) {
-      return res.status(404).send("Product not found.");
+      req.session.errorMessage = "That product no longer exists.";
+      return res.redirect('/admin/products');
     }
+    await Category.updateOne({ _id: product.category }, { $pull: { products: product._id } });
 
+    req.session.successMessage = `"${product.name}" was deleted.`;
     res.redirect('/admin/products');
-    
+
   } catch (err) {
     console.error(err);
     res.status(500).send("Error deleting product.");

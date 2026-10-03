@@ -1,246 +1,80 @@
-/* Overall Body and Background */
-body {
-    background-color: #f0f2f5;
-}
-
-/* Close Button Styling */
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 1.5rem;
-    color: #333;
-    background: none;
-}
-
-/* Container Styling for Product Page */
-.container.product-page {
-    margin-top: 50px;
-    padding: 30px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-/* Close button styling */
-.close-btn {
-    font-size: 30px;
-    background: none;
-    border: none;
-    color: #333;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
-/* Product image styling */
-.product-image img {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    margin-bottom: 20px;
-    border-radius: 10px;
-}
-
-/* Flexbox for the product details and image */
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-/* Product details styling */
-.product-details {
-    padding-left: 30px;
-}
-
-/* Black color for Product Name */
-.product-details h1 {
-    color: black;
-    font-size: 3rem;
-    font-weight: bold;
-    text-align: left;
-    margin-bottom: 20px;
-}
-
-/* Black color for "Description:" heading */
-.product-details h2:nth-of-type(1) {
-    color: black;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: left;
-    margin-top: 20px;
-}
-
-/* Black color for "Price:" heading */
-.product-details h2:nth-of-type(2) {
-    color: black;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: left;
-    margin-top: 20px;
-}
-
-/* Description and price section */
-p {
-    font-size: 1.2rem;
-    color: #555;
-    line-height: 1.6;
-}
-
-/* Black color for Price */
-.price {
-    color: black;
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-/* Add to Bag button styling */
-form button {
-    font-size: 1.2rem;
-    background-color: #007bff;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s;
-}
-
-form button:hover {
-    background-color: #0056b3;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .product-image img {
-        max-width: 100%;
-    }
-
-    .product-details h1 {
-        font-size: 2.5rem;
-    }
-
-    .product-details h2 {
-        font-size: 1.3rem;
-    }
-
-    p {
-        font-size: 1rem;
-    }
-
-    .price {
-        font-size: 1.5rem;
-    }
-}
-
-/* Product Page Container */
+/* Product detail page. Builds on shop.css; every rule is scoped to .product-page
+   so nothing leaks into the navbar or footer. */
 .product-page {
-    display: flex;
-    justify-content: space-between;
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    position: relative;
-    margin: 50px auto;
-    max-width: 1200px;
-    overflow: hidden;
-    transition: transform 0.5s ease;
+  padding: 32px;
 }
 
-/* Hover Effect for Product Page */
-.product-page:hover {
-    transform: translateY(-10px);
+.product-page .product-image {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f8f8f8;
 }
 
-/* Product Image Section */
-.product-image {
-    flex: 1;
-    margin-right: 40px;
-    position: relative;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.product-page .product-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  transition: transform 0.4s ease;
 }
 
-.product-image img {
-    width: 100%;
-    transition: transform 0.4s ease;
+.product-page .product-image:hover img {
+  transform: scale(1.05);
 }
 
-/* Zoom Effect */
-.product-image:hover img {
-    transform: scale(1.1);
+.product-page .product-category {
+  color: #777;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
 }
 
-/* Product Details Section */
-.product-details {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.product-page .product-title {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
-.product-details h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    color: black;
-    margin-bottom: 10px;
+.product-page .product-detail-price {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 28px;
 }
 
-.product-details h2 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: black;
-    margin-bottom: 10px;
+.product-page .product-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  margin-bottom: 10px;
 }
 
-.product-details p {
-    font-size: 1.2rem;
-    color: black;
-    margin-top: 10px;
-    text-align: justify;
+.product-page .product-description {
+  color: #444;
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 0;
 }
 
-.product-details .price {
-    font-size: 1rem;
-    color: black;
-    margin-bottom: 20px;
+.product-page .add-to-bag-btn {
+  width: 100%;
+  max-width: 360px;
+  padding: 14px 28px;
 }
 
-.product-details button {
-    background-color: #000000;
-    color: #fff;
-    border: none;
-    border-radius: 30px;
-    padding: 8px 30px;
-    font-size: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
+@media (max-width: 576px) {
+  .product-page {
+    padding: 18px;
+  }
 
-.product-details button:hover {
-    background-color: #6d6664;
-}
+  .product-page .product-title {
+    font-size: 28px;
+  }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .product-page {
-        flex-direction: column;
-        padding: 20px;
-    }
-
-    .product-image {
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-
-    .product-details {
-        text-align: center;
-    }
+  .product-page .add-to-bag-btn {
+    max-width: none;
+  }
 }
