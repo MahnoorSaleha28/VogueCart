@@ -1,8 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config({ path: require("path").join(__dirname, "..", ".env") });
-// Node on this machine resolves DNS via 127.0.0.1, which refuses the Atlas SRV lookup
-require("dns").setServers(["8.8.8.8", "1.1.1.1"]);
+// Some machines (like this dev PC) point Node at 127.0.0.1 for DNS, which refuses the Atlas SRV lookup.
+// Only then switch to public DNS, so hosts like Vercel keep their own resolver.
+const dns = require("dns");
+if (dns.getServers().includes("127.0.0.1")) {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+}
 const expressEjsLayouts = require("express-ejs-layouts");
 const server = express();
 const Product = require("./models/products.model");
@@ -45,6 +49,8 @@ server.use(
 const userRouter = require("./routes/user/user.controller");
 
 server.set("view engine", "ejs");
+// Absolute path, so the views folder is found (and bundled) on Vercel too
+server.set("views", require("path").join(__dirname, "views"));
 
 var expressLayouts = require("express-ejs-layouts");
 server.use(expressLayouts);

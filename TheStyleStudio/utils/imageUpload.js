@@ -19,7 +19,10 @@ if (useCloudinary) {
   });
 }
 
-const storage = useCloudinary
+// Vercel's disk is read-only, so uploads there only work through Cloudinary
+const readOnlyDisk = Boolean(process.env.VERCEL);
+
+const storage = useCloudinary || readOnlyDisk
   ? multer.memoryStorage() // Kept in memory just long enough to send to Cloudinary
   : multer.diskStorage({
       destination: (req, file, cb) => {
@@ -54,6 +57,9 @@ function uploadSingle(field) {
 
 // Returns the URL to store on the product for an uploaded file
 function saveImage(file) {
+  if (!useCloudinary && readOnlyDisk) {
+    return Promise.reject(new Error("Image uploads on Vercel need the CLOUDINARY_* environment variables."));
+  }
   if (!useCloudinary) {
     return Promise.resolve(`/images/${file.filename}`);
   }
